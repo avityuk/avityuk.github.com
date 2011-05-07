@@ -18,9 +18,10 @@
 	<div id="header">
 	</div>
 
-	<div id="content">
-		<div id="post">
-	<h2><a href="/2009/03/blog-post.html" rel="bookmark">Фабричный метод</a></h2>
+	<div id="main">
+		<div id="content">
+			<div id="post">
+	<h3 class="post-title"><a href="/2009/03/blog-post.html" rel="bookmark">Фабричный метод</a></h3>
 	
 	<div id="poster">
 		<img src="http://2.bp.blogspot.com/_MzPDIAgS1ow/ScY48e6QaTI/AAAAAAAAJ6Y/WkCsn9_myxU/s400/magican.jpg" width="304px" height="400px" />
@@ -720,21 +721,75 @@
 <p>Интерфейс остался прежним, соответственно, тесты те же, что и в предыдущем примере. Последний пример имеет не только более опрятную реализацию, к тому же, по производительности и расходу памяти он более оптимален: поведение большинства методов определяется статически в зависимости от конкретной реализации, а ссылки сами по себе (даже пустые) используют память. Более того, в качестве пустого контейнера (<code>Response.Empty</code>) всегда возвращается один и тот же объект, который создается только один раз (такой себе <a href="http://ru.wikipedia.org/wiki/%D0%9E%D0%B4%D0%B8%D0%BD%D0%BE%D1%87%D0%BA%D0%B0_(%D1%88%D0%B0%D0%B1%D0%BB%D0%BE%D0%BD_%D0%BF%D1%80%D0%BE%D0%B5%D0%BA%D1%82%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D1%8F)">Синглтон</a>). Кстати, в качестве разминки, советую попробовать реализовать правильные методы <a href="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/Object.html#equals(java.lang.Object)">equals</a> и <a href="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/Object.html#hashCode()">hashCode</a> для нашего <code>Response</code> (советую начать с тестов). Думаю, что никто не будет отрицать преимуществ использования паттерна <em>Фабричный метод</em> для нашей задачи. Лично у меня для себя есть такое правило: если есть частично или полностью <a href="http://en.wikipedia.org/wiki/Immutable_object">Immutable object</a>, то всегда стоит подумать о том, чтобы сделать <em>фабричный метод</em> вместо конструктора, даже когда он явно делает то же самое, что и конструктор. Да, я знаю, это может немного противоречить принципу <a href="http://en.wikipedia.org/wiki/You_Ain%27t_Gonna_Need_It">YAGNI</a>. Но в таких случаях я себя оправдываю тем, что статические методы выглядят красивее и порой удобней читаются. Далее, в награду, у меня всегда есть возможность что-то поменять внутри класса или сделать некую оптимизацию не затрагивая клиентский код. В нагрузку, советую посмотреть на реализацию метода <a href="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/Integer.html#valueOf(int)">Integer.valueOf()</a>. Для меня, в свое время, это было очень познавательно.</p>
 
 
-</div>
-<div class="post-meta">
-	<span class="date">22 Mar 2009 | </span>
-	<span class="tags">
-		Tags:
-		
-			<a href="/tags/java" rel="tag">java, </a>
-		
-			<a href="/tags/error-handling" rel="tag">error handling, </a>
-		
-			<a href="/tags/pattern" rel="tag">pattern</a>
-		
-	</span>
+
+	<div class="post-meta">
+		<span class="date">22 Mar 2009 | </span>
+		<span class="tags">
+			Tags:
+			
+				<a href="/tags/java" rel="tag">java, </a>
+			
+				<a href="/tags/error-handling" rel="tag">error handling, </a>
+			
+				<a href="/tags/pattern" rel="tag">pattern</a>
+			
+		</span>
+	</div>
 </div>
 
+		</div>
+		<div id="sidebar">
+			<div id="tags">
+	<h2>Tags</h2>
+	<ul>
+	
+		<li><a href="/tags/compiler" rel="tag">compiler</a> (1)</li>
+	
+		<li><a href="/tags/bytecode" rel="tag">bytecode</a> (1)</li>
+	
+		<li><a href="/tags/debugging" rel="tag">debugging</a> (1)</li>
+	
+		<li><a href="/tags/reflection" rel="tag">reflection</a> (2)</li>
+	
+		<li><a href="/tags/java" rel="tag">java</a> (7)</li>
+	
+		<li><a href="/tags/google" rel="tag">google</a> (1)</li>
+	
+		<li><a href="/tags/sbt" rel="tag">sbt</a> (1)</li>
+	
+		<li><a href="/tags/factory-method" rel="tag">factory method</a> (1)</li>
+	
+		<li><a href="/tags/pattern" rel="tag">pattern</a> (2)</li>
+	
+		<li><a href="/tags/formatting" rel="tag">formatting</a> (1)</li>
+	
+		<li><a href="/tags/jdbc" rel="tag">jdbc</a> (1)</li>
+	
+		<li><a href="/tags/appengine" rel="tag">appengine</a> (1)</li>
+	
+		<li><a href="/tags/error-handling" rel="tag">error handling</a> (1)</li>
+	
+		<li><a href="/tags/performance" rel="tag">performance</a> (1)</li>
+	
+		<li><a href="/tags/testing" rel="tag">testing</a> (1)</li>
+	
+		<li><a href="/tags/generics" rel="tag">generics</a> (1)</li>
+	
+		<li><a href="/tags/scala" rel="tag">scala</a> (2)</li>
+	
+		<li><a href="/tags/multithreading" rel="tag">multithreading</a> (1)</li>
+	
+		<li><a href="/tags/web" rel="tag">web</a> (1)</li>
+	
+		<li><a href="/tags/logging" rel="tag">logging</a> (2)</li>
+	
+		<li><a href="/tags/mock" rel="tag">mock</a> (1)</li>
+	
+	</ul>
+</div>
+
+		</div>
+		<div style="clear: both;"></div>
 	</div>
 
 	<div id="footer">

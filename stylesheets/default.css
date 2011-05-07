@@ -1,0 +1,87 @@
+body {
+	background-color: white;
+	font: 12px arial,tahoma,helvetica,freesans,clean,sans-serif;
+}
+
+a {
+	text-decoration: none;
+}
+
+a:link {
+	color: #249FA3;
+}
+
+a:visited {
+	color: #7C93A1;
+}
+
+a:hover {
+	color: #5DC2C0;
+}
+
+
+pre, code {
+	font: 12px Monaco, "Courier New", "DejaVu Sans Mono", "Bitstream Vera Sans Mono", monospace;
+}
+
+code {
+	background-color: #f8f8ff;
+	border: 1px solid #dedede;
+	padding: 0 .2em;
+}
+
+pre code {
+	display: block;
+	padding: 0.5em;
+	white-space: pre-wrap;
+}
+
+h2 {
+	color: #000000;
+	font-size: 11px;
+	font-style: bold;
+	margin: 0 0 1em;
+	text-transform: uppercase;
+}
+
+#main {
+	width: 942px;
+	margin: 0 auto 60px;
+}
+
+#content {
+	float: left;
+	width: 680px;
+	border-right: 1px solid #DDDDDD;
+}
+
+#post {
+	font-size: 110%;
+	padding: 30px;
+}
+
+#sidebar {
+	float: left;
+	height: 100%;
+	width: 260px;
+}
+
+#tags {
+	margin: 30px;
+}
+
+#tags ul {
+	line-height: 1.2;
+	margin: 0;
+	padding: 0 0 0 1.25em;
+}
+
+#tags li {
+	margin: 0;
+	padding: 0.25em 0;
+	text-indent: 0;
+}
+
+h3.post-title {
+	font-size: 22px;	
+}
