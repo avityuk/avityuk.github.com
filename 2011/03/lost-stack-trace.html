@@ -1,0 +1,104 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8"  />
+<meta name="description" content="Andrey Vityuk's Dev Blog" />
+<meta name="keywords" content="code,software,development" />
+<meta name="author" content="Andrey Vityuk" />
+<link rel="stylesheet" type="text/css" href="/stylesheets/default.css" />
+<link rel="stylesheet" type="text/css" href="/stylesheets/syntax.css" />
+
+<link rel="canonical" href="http://avityuk.github.com/2011/03/lost-stack-trace.html">
+
+<link rel="alternate" type="application/atom+xml" href="http://avityuk.github.com/atom.xml" />
+
+<title>Lost Stack Trace</title>
+</head>
+<body>
+	<div id="header">
+	</div>
+
+	<div id="content">
+		<div id="post">
+	<h2><a href="/2011/03/lost-stack-trace.html" rel="bookmark">Lost Stack Trace</a></h2>
+	
+	<p>Last week our team faced another <code>NullPointerException</code> in our	development environment. As usual I started investigate log files to get full stack trace and find out reason of exception. Surprisingly, but the message I saw in log file was like:</p>
+
+<pre><code>ERROR: MyClass - java.lang.NullPointerException
+</code></pre>
+
+<p>I realized that there was something wrong in logging code, hence we are loosing stack trace. I checked code which produces this log and didn't find anything unusual. Then I asked my colleague to double check it may be I miss something. He reproduced the same exception on his desktop and showed me nice log statement with full stack trace. We started to feel that there is some magic behind that. Whole team started googling and finally we found the answer.</p>
+
+<p><a name="more"></a>
+There was <a href="http://stackoverflow.com/questions/2411487/nullpointerexception-in-java-with-no-stacktrace">discussion on stackoverflow</a> about this issue. And answer was there. As we guessed it was HotSpot magic. Here is example which reveals the problem:    </p>
+
+<div class="highlight"><pre><code class="java"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">LostStackTrace</span> <span class="o">{</span>
+  <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+    <span class="n">m</span><span class="o">();</span>
+  <span class="o">}</span>
+
+  <span class="kd">private</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">m</span><span class="o">()</span> <span class="o">{</span>
+    <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="mi">100000</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
+      <span class="k">try</span> <span class="o">{</span>
+        <span class="o">((</span><span class="n">Object</span><span class="o">)</span> <span class="kc">null</span><span class="o">).</span><span class="na">hashCode</span><span class="o">();</span>
+      <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">NullPointerException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">e</span><span class="o">.</span><span class="na">getStackTrace</span><span class="o">().</span><span class="na">length</span> <span class="o">==</span> <span class="mi">0</span><span class="o">)</span> <span class="o">{</span>
+          <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">i</span><span class="o">);</span>
+          <span class="n">e</span><span class="o">.</span><span class="na">printStackTrace</span><span class="o">();</span>
+          <span class="k">return</span><span class="o">;</span>
+        <span class="o">}</span>
+      <span class="o">}</span>
+    <span class="o">}</span>
+  <span class="o">}</span>
+<span class="o">}</span>
+</code></pre>
+</div>
+
+<p>If you run it with <em>java -server</em> you'll see something like this:</p>
+
+<pre><code>18658
+java.lang.NullPointerException
+</code></pre>
+
+<p>Here it is, on 18658 iteration (funny thing about that is that I tested it on few PCs and it always happens on 18658 or 20706 iteration) JVM recompiles bytecode with optimization for exception: use preallocated exception without stack trace instead of creating it each time. I suppose Sun did it for optimizing stupid things like <a href="http://www.google.com/search?q=using+exceptions+for+flow+control">using exceptions for flow control</a>.</p>
+
+<p>Good thing that Sun allowed us to disable this behavior<sup id="fnref:1"><a href="#fn:1" rel="footnote">1</a></sup>:</p>
+
+<blockquote>
+  <p>The compiler in the server VM now provides correct stack backtraces
+for all "cold" built-in exceptions. For performance purposes, when
+such an exception is thrown a few times, the method may be recompiled.
+After recompilation, the compiler may choose a faster tactic using
+preallocated exceptions that do not provide a stack trace. To disable
+completely the use of preallocated exceptions, use this new flag: <strong>-XX:-OmitStackTraceInFastThrow</strong>.</p>
+</blockquote>
+
+<p>Finally we added this parameter to start scripts on all our development environments. You can try it with above sample code: <em>java -server -XX: OmitStackTraceInFastThrow</em>.</p>
+
+<div class="footnotes">
+  <ol>
+    <li id="fn:1">
+      <p>http://java.sun.com/j2se/1.5.0/relnotes.html<a href="#fnref:1" rev="footnote">&#8617;</a></p>
+    </li>
+  </ol>
+</div>
+
+</div>
+<div class="post-meta">
+	<span class="date">31 Mar 2011 | </span>
+	<span class="tags">
+		Tags:
+		
+			<a href="/tags/java" rel="tag">java, </a>
+		
+			<a href="/tags/debugging" rel="tag">debugging</a>
+		
+	</span>
+</div>
+
+	</div>
+
+	<div id="footer">
+	</div>
+</body>
+</html>

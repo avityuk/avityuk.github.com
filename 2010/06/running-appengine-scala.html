@@ -1,0 +1,253 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8"  />
+<meta name="description" content="Andrey Vityuk's Dev Blog" />
+<meta name="keywords" content="code,software,development" />
+<meta name="author" content="Andrey Vityuk" />
+<link rel="stylesheet" type="text/css" href="/stylesheets/default.css" />
+<link rel="stylesheet" type="text/css" href="/stylesheets/syntax.css" />
+
+<link rel="canonical" href="http://avityuk.github.com/2010/06/running-appengine-scala.html">
+
+<link rel="alternate" type="application/atom+xml" href="http://avityuk.github.com/atom.xml" />
+
+<title>Getting started with AppEngine + Scala</title>
+</head>
+<body>
+	<div id="header">
+	</div>
+
+	<div id="content">
+		<div id="post">
+	<h2><a href="/2010/06/running-appengine-scala.html" rel="bookmark">Getting started with AppEngine + Scala</a></h2>
+	
+	<div id="poster">
+		<img src="http://2.bp.blogspot.com/_MzPDIAgS1ow/TAaZmre_WXI/AAAAAAAAOFc/a2_E3nAacQI/s320/scala_appengine.png" width="315px" height="186px" />
+	</div>
+	
+	<p>This time, after long time-out I decided to continue blogging in english. Sorry for my english in advance, but I will try to do my best ;-)I spent some time playing with <a href="http://code.google.com/appengine/">Google App Engine</a> and <a href="http://www.scala-lang.org/">Scala</a> integration so I think it could be helpful for somebody else. Since they are both innovative technologies I could not resist the temptation to use unusual build tool with self-explanatory name <a href="http://code.google.com/p/simple-build-tool/">simple-build-tool</a>. In short, this is Maven-like build tool which actually works with Maven repositories (using Apache Ivy). But instead of boilerplate xml you get Scala code.<br />
+<a name="more"></a><br />
+First of all you need to <a href="http://code.google.com/p/simple-build-tool/wiki/Setup">install simple-build-tool</a>.<br />
+Let's create our project dir:</p>
+
+<pre><code>$ mkdir gae_scala
+</code></pre>
+
+<p>And run simple-build-tool:  </p>
+
+<pre><code>$ cd gae_scala
+$ sbt
+</code></pre>
+
+<pre><code>Project does not exist, create new project? (y/N/s) y
+Name: gae_scala
+Organization: com.example
+Version [1.0]: 
+Scala version [2.7.7]: 
+sbt version [0.7.3]: 
+Getting Scala 2.7.7 ...
+:: retrieving :: org.scala-tools.sbt#boot-scala
+ confs: [default]
+ 2 artifacts copied, 0 already retrieved (9911kB/94ms)
+Getting org.scala-tools.sbt sbt_2.7.7 0.7.3 ...
+:: retrieving :: org.scala-tools.sbt#boot-app
+ confs: [default]
+ 15 artifacts copied, 0 already retrieved (4023kB/153ms)
+[success] Successfully initialized directory structure.
+[info] Building project gae_scala 1.0 against Scala 2.7.7
+[info]    using sbt.DefaultProject with sbt 0.7.3 and Scala 2.7.7
+&gt; 
+</code></pre>
+
+<p>Now we have initial project skeleton. You can run <em>help</em> command and read about existsing commands.<br />
+There is existing <a href="http://github.com/Yasushi/sbt-appengine-plugin">google app engine plugin for sbt</a>. Let's build and install it. Run in some temporary directory:</p>
+
+<pre><code>$ git clone git://github.com/Yasushi/sbt-appengine-plugin.git
+$ cd sbt-appengine-plugin
+$ sbt
+$ publish-local
+</code></pre>
+
+<pre><code>..........................................................................
+[info] == publish-local ==
+[info] :: publishing :: net.stbbs.yasushi#sbt-appengine-plugin
+[info]  published sbt-appengine-plugin to /home/brick/.ivy2/local/net.stbbs.yasushi/sbt-appengine-plugin/2.1-SNAPSHOT/jars/sbt-appengine-plugin.jar
+[info]  published sbt-appengine-plugin to /home/brick/.ivy2/local/net.stbbs.yasushi/sbt-appengine-plugin/2.1-SNAPSHOT/poms/sbt-appengine-plugin.pom
+[info]  published ivy to /home/brick/.ivy2/local/net.stbbs.yasushi/sbt-appengine-plugin/2.1-SNAPSHOT/ivys/ivy.xml
+[info] == publish-local ==
+[success] Successful.
+[info] 
+[info] Total time: 9 s, completed 02.06.2010 21:38:55
+</code></pre>
+
+<p>We installed gae plugin for sbt, getting back to <em>gae_scala</em>:</p>
+
+<pre><code>$ mkdir project/build
+$ mkdir project/plugins
+</code></pre>
+
+<p>Create <em>project/plugins/plugins.scala</em> with your favourite editor:</p>
+
+<div class="highlight"><pre><code class="scala"><span class="k">import</span> <span class="nn">sbt._</span>
+
+<span class="k">class</span> <span class="nc">Plugins</span><span class="o">(</span><span class="n">info</span><span class="k">:</span> <span class="kt">ProjectInfo</span><span class="o">)</span> <span class="k">extends</span> <span class="nc">PluginDefinition</span><span class="o">(</span><span class="n">info</span><span class="o">)</span> <span class="o">{</span>
+  <span class="k">val</span> <span class="n">appEngine</span> <span class="k">=</span> <span class="s">&quot;net.stbbs.yasushi&quot;</span> <span class="o">%</span> <span class="s">&quot;sbt-appengine-plugin&quot;</span> <span class="o">%</span> <span class="s">&quot;2.1-SNAPSHOT&quot;</span>
+<span class="o">}</span>
+</code></pre>
+</div>
+
+<p>Above we <a href="http://code.google.com/p/simple-build-tool/wiki/SbtPlugins">defined dependency</a> on App Engine plugin (the same as maven plugin dependency).<br />
+Create <em>project/build/project.scala</em> custom <a href="http://codjavascript:void(0)e.google.com/p/simple-build-tool/wiki/BuildConfiguration">build configuration</a> with appengine support:</p>
+
+<div class="highlight"><pre><code class="scala"><span class="k">import</span> <span class="nn">sbt._</span>
+
+<span class="k">class</span> <span class="nc">AppengineScalaProject</span><span class="o">(</span><span class="n">info</span><span class="k">:</span> <span class="kt">ProjectInfo</span><span class="o">)</span>
+   <span class="k">extends</span> <span class="nc">AppengineProject</span><span class="o">(</span><span class="n">info</span><span class="o">)</span> <span class="k">with</span> <span class="nc">DataNucleus</span>
+</code></pre>
+</div>
+
+<p><em>DataNucleus</em> trait adds <a href="http://code.google.com/intl/en/appengine/docs/java/datastore/usingjdo.html#Enhancing_Data_Classes">domain classes enhacer</a> to the build process. It is required only when used with JDO or JPA.<br />
+At the moment we have sbt project with configured appengine plugin. Specify App Engine SDK home:</p>
+
+<pre><code>$ export APPENGINE_SDK_HOME=~/installed/appengine-java-sdk
+</code></pre>
+
+<p>Run <em>sbt</em> shell and <em>update</em> command:</p>
+
+<pre><code>[info] Recompiling project definition...
+[info]    Source analysis: 1 new/modified, 0 indirectly invalidated, 0 removed.
+[info] Building project gae_scala 1.0 against Scala 2.7.7
+[info]    using AppengineTestProject with sbt 0.7.3 and Scala 2.7.7
+&gt; update
+[info] 
+[info] == update ==
+[info] :: retrieving :: com.example#gae_scala_2.7.7 [sync]
+[info]  confs: [compile, runtime, test, provided, system, optional, sources, javadoc]
+[info]  1 artifacts copied, 0 already retrieved (102kB/37ms)
+[info] == update ==
+[success] Successful.
+[info] 
+[info] Total time: 1 s, completed 02.06.2010 22:17:07
+&gt; 
+</code></pre>
+
+<p>Now we need to create <em>web.xml</em> and <em>appengine-web.xml</em> descriptors for out application:</p>
+
+<pre><code>$ mkdir -p src/main/webapp/WEB-INF
+</code></pre>
+
+<p>Create <em>src/main/webapp/WEB-INF/web.xml</em> file:</p>
+
+<div class="highlight"><pre><code class="xml"><span class="cp">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;</span>
+<span class="nt">&lt;web-app</span> <span class="na">xmlns:xsi=</span><span class="s">&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span>
+<span class="na">xmlns=</span><span class="s">&quot;http://java.sun.com/xml/ns/javaee&quot;</span>
+<span class="na">xmlns:web=</span><span class="s">&quot;http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd&quot;</span>
+<span class="na">xsi:schemaLocation=</span><span class="s">&quot;http://java.sun.com/xml/ns/javaee</span>
+<span class="s">http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd&quot;</span> <span class="na">version=</span><span class="s">&quot;2.5&quot;</span><span class="nt">&gt;</span>
+        <span class="nt">&lt;servlet&gt;</span>
+                <span class="nt">&lt;servlet-name&gt;</span>HelloWorld<span class="nt">&lt;/servlet-name&gt;</span>
+                <span class="nt">&lt;servlet-class&gt;</span>com.example.HelloWorld<span class="nt">&lt;/servlet-class&gt;</span>
+        <span class="nt">&lt;/servlet&gt;</span>
+        <span class="nt">&lt;servlet-mapping&gt;</span>
+                <span class="nt">&lt;servlet-name&gt;</span>HelloWorld<span class="nt">&lt;/servlet-name&gt;</span>
+                <span class="nt">&lt;url-pattern&gt;</span>/hello<span class="nt">&lt;/url-pattern&gt;</span>
+        <span class="nt">&lt;/servlet-mapping&gt;</span>
+        <span class="nt">&lt;welcome-file-list&gt;</span>
+                <span class="nt">&lt;welcome-file&gt;</span>index.html<span class="nt">&lt;/welcome-file&gt;</span>
+        <span class="nt">&lt;/welcome-file-list&gt;</span>
+<span class="nt">&lt;/web-app&gt;</span>
+</code></pre>
+</div>
+
+<p>Create <em>src/main/webapp/WEB-INF/appengine-web.xml</em> file:</p>
+
+<div class="highlight"><pre><code class="xml"><span class="cp">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;</span>
+<span class="nt">&lt;appengine-web-app</span> <span class="na">xmlns=</span><span class="s">&quot;http://appengine.google.com/ns/1.0&quot;</span><span class="nt">&gt;</span>
+        <span class="nt">&lt;application&gt;</span>gae_scala<span class="nt">&lt;/application&gt;</span>
+        <span class="nt">&lt;version&gt;</span>1<span class="nt">&lt;/version&gt;</span>
+<span class="nt">&lt;/appengine-web-app&gt;</span>
+</code></pre>
+</div>
+
+<p>At last, we need to create our <code>HelloWorld</code> servlet:</p>
+
+<pre><code>$ mkdir -p src/main/scala/com/example
+</code></pre>
+
+<p><em>src/main/scala/com/example/HelloWorld.scala</em>:</p>
+
+<div class="highlight"><pre><code class="scala"><span class="k">package</span> <span class="nn">com.example</span>
+
+<span class="k">import</span> <span class="nn">javax.servlet.http._</span>
+
+<span class="k">class</span> <span class="nc">HelloWorld</span> <span class="k">extends</span> <span class="nc">HttpServlet</span> <span class="o">{</span>
+  <span class="k">override</span> <span class="k">def</span> <span class="n">doGet</span><span class="o">(</span><span class="n">req</span><span class="k">:</span> <span class="kt">HttpServletRequest</span><span class="o">,</span> <span class="n">resp</span><span class="k">:</span> <span class="kt">HttpServletResponse</span><span class="o">)</span> <span class="k">=</span> <span class="o">{</span>
+    <span class="n">resp</span><span class="o">.</span><span class="n">setContentType</span><span class="o">(</span><span class="s">&quot;text/plain&quot;</span><span class="o">)</span>
+    <span class="n">resp</span><span class="o">.</span><span class="n">getWriter</span><span class="o">().</span><span class="n">println</span><span class="o">(</span><span class="s">&quot;Hello World!&quot;</span><span class="o">)</span>
+  <span class="o">}</span>
+<span class="o">}</span>
+</code></pre>
+</div>
+
+<p>Now we are ready to run:</p>
+
+<pre><code>$ sbt
+&gt; dev-appserver-start
+[info] 
+[info] == compile ==
+[info]   Source analysis: 1 new/modified, 0 indirectly invalidated, 0 removed.
+[info] Compiling main sources...
+[info] Compilation successful.
+[info]   Post-analysis: 1 classes.
+[info] == compile ==
+[info] 
+[info] == copy-resources ==
+[info] == copy-resources ==
+[info] 
+[info] == prepare-webapp ==
+[info] == prepare-webapp ==
+[info] 
+[info] == dev-appserver-start ==
+[info] == dev-appserver-start ==
+[success] Successful.
+[info] 
+[info] Total time: 1 s, completed 02.06.2010 22:44:55
+..........................................................................
+</code></pre>
+
+<p>Open <a href="http://localhost:8080/hello">http://localhost:8080/hello</a> in web browser and enjoy result&hellip;<br />
+Here are several useful actions:</p>
+
+<ul>
+  <li><em>dev-appserver-start</em> - starts development server</li>
+  <li><em>dev-appserver-stop</em> - stops development server</li>
+  <li><em>enhance</em> - executes ORM enhancement</li>
+  <li><em>update-webapp</em> - uploads application to Google App Engine server</li>
+  <li><em>action</em> - prints all available actions</li>
+</ul>
+
+<p>Now you are ready to code something. Have a fun!</p>
+
+
+</div>
+<div class="post-meta">
+	<span class="date">02 Jun 2010 | </span>
+	<span class="tags">
+		Tags:
+		
+			<a href="/tags/sbt" rel="tag">sbt, </a>
+		
+			<a href="/tags/google" rel="tag">google, </a>
+		
+			<a href="/tags/web" rel="tag">web</a>
+		
+	</span>
+</div>
+
+	</div>
+
+	<div id="footer">
+	</div>
+</body>
+</html>

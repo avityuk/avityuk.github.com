@@ -1,0 +1,64 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8"  />
+<meta name="description" content="Andrey Vityuk's Dev Blog" />
+<meta name="keywords" content="code,software,development" />
+<meta name="author" content="Andrey Vityuk" />
+<link rel="stylesheet" type="text/css" href="/stylesheets/default.css" />
+<link rel="stylesheet" type="text/css" href="/stylesheets/syntax.css" />
+
+<link rel="canonical" href="http://avityuk.github.com/2011/03/logging-jdbc-calls.html">
+
+<link rel="alternate" type="application/atom+xml" href="http://avityuk.github.com/atom.xml" />
+
+<title>Logging JDBC calls</title>
+</head>
+<body>
+	<div id="header">
+	</div>
+
+	<div id="content">
+		<div id="post">
+	<h2><a href="/2011/03/logging-jdbc-calls.html" rel="bookmark">Logging JDBC calls</a></h2>
+	
+	<p>Today I found some my drafts of JDBC logger library. And finally decided to upload it on <a href="http://code.google.com/p/jdbc-logger/">Google code</a>. The main idea of the library is to transparently intercept JDBC calls and log queries (even for PreparedStatement).</p>
+
+<p><a name="more"></a></p>
+
+<p>It&rsquo;s always painful to analyze log with JDBC calls:</p>
+
+<pre><code>1025 [main] INFO JDBC - insert into TEST (NAME, POS) VALUES(?, ?)
+</code></pre>
+
+<p>Looks not very useful unless you are printing parameters passed to <code>PreparedStatement</code>. Even some of my colleagues pointed that they hate <code>PreparedStatement</code> because of it.</p>
+
+<p>Pretty straightforward solution is to intercept JDBC calls and create some simple log statement. That's what actually library is doing. I won't describe it's usage here, since I already did it on <a href="http://code.google.com/p/jdbc-logger/wiki/Usage">usage page</a>. In short the only thing you have to do is to wrap data source: <code>new LoggableDataSource(ds, new Slf4JLogger())</code>. And that's what you automatically get:</p>
+
+<pre><code>394 [main] INFO JDBC - insert into TEST (NAME, POS) VALUES(name-0, 0)
+</code></pre>
+
+<p>It works with any <code>DataSource</code> and various logging libraries. It could be useful during development and testing.</p>
+
+
+</div>
+<div class="post-meta">
+	<span class="date">07 Mar 2011 | </span>
+	<span class="tags">
+		Tags:
+		
+			<a href="/tags/java" rel="tag">java, </a>
+		
+			<a href="/tags/logging" rel="tag">logging, </a>
+		
+			<a href="/tags/jdbc" rel="tag">jdbc</a>
+		
+	</span>
+</div>
+
+	</div>
+
+	<div id="footer">
+	</div>
+</body>
+</html>

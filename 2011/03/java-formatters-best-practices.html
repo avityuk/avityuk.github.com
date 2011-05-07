@@ -1,0 +1,146 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8"  />
+<meta name="description" content="Andrey Vityuk's Dev Blog" />
+<meta name="keywords" content="code,software,development" />
+<meta name="author" content="Andrey Vityuk" />
+<link rel="stylesheet" type="text/css" href="/stylesheets/default.css" />
+<link rel="stylesheet" type="text/css" href="/stylesheets/syntax.css" />
+
+<link rel="canonical" href="http://avityuk.github.com/2011/03/java-formatters-best-practices.html">
+
+<link rel="alternate" type="application/atom+xml" href="http://avityuk.github.com/atom.xml" />
+
+<title>Java Formatters Best Practices</title>
+</head>
+<body>
+	<div id="header">
+	</div>
+
+	<div id="content">
+		<div id="post">
+	<h2><a href="/2011/03/java-formatters-best-practices.html" rel="bookmark">Java Formatters Best Practices</a></h2>
+	
+	<p>Java API has set of classes for formatting and parsing dates and
+numbers. Mostly used are: <code>java.text.DateFormat</code> and <code>java.text.NumberFormat</code>. Often when interviewing candidates I ask them whether JDK date and number formatters are thread-safe. Surprisingly most of them don't know the right answer, hence I decided to describe common pitfalls with formatters usage.</p>
+
+<p><a name="more"></a>
+As you can guess both <code>DateFormat</code> and <code>NumberFormat</code> are not thread-safe. This is old known Java API design mistake. Nowadays all agreed that they supposed to be immutable instead of mutable. There is awesome alternative for dates - <a href="http://joda-time.sourceforge.net/">Joda Time</a>. Which is pretty mature and was taken as a base for <a href="http://java.net/projects/jsr-310/">JSR-310</a>. I am personally recommend to stick with Joda Time if you can choose, because on our project we have great impression of using it. But if you have to deal with JDK date (and I don't know good alternatives for numbers) you should be ready to use them correctly. Let's go over formatting common patterns. In my examples I will use <code>SimpleDateFormatter</code> for formatting date. But all examples applicable for <code>NumberFormat</code> and for parsing strings.</p>
+
+<h3 id="1">1. Local format</h3>
+
+<div class="highlight"><pre><code class="java"><span class="kn">import</span> <span class="nn">java.text.SimpleDateFormat</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.util.Date</span><span class="o">;</span>
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">FormatLocal</span> <span class="o">{</span>
+  <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+    <span class="n">format</span><span class="o">(</span><span class="k">new</span> <span class="n">Date</span><span class="o">());</span>
+  <span class="o">}</span>
+
+  <span class="kd">static</span> <span class="n">String</span> <span class="nf">format</span><span class="o">(</span><span class="n">Date</span> <span class="n">date</span><span class="o">)</span> <span class="o">{</span>
+    <span class="n">SimpleDateFormat</span> <span class="n">format</span> <span class="o">=</span> <span class="k">new</span> <span class="n">SimpleDateFormat</span><span class="o">(</span><span class="s">&quot;yyyy-MM-dd HH:mm:ss&quot;</span><span class="o">);</span>
+    <span class="k">return</span> <span class="n">format</span><span class="o">.</span><span class="na">format</span><span class="o">(</span><span class="n">date</span><span class="o">);</span>
+  <span class="o">}</span>
+<span class="o">}</span>
+</code></pre>
+</div>
+
+<p>This is the most obvious and straightforward way of formatter usage. You just create local instance and use it right away. In most cases it's sufficient and preferable way to use it. But a lot of people trying to optimize it and turn it into <a href="#2">2</a>.</p>
+
+<h3 id="2">2. Shared not synchronized format</h3>
+
+<div class="highlight"><pre><code class="java"><span class="kn">import</span> <span class="nn">java.text.SimpleDateFormat</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.util.Date</span><span class="o">;</span>
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">FormatSharedBuggy</span> <span class="o">{</span>
+  <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+    <span class="n">format</span><span class="o">(</span><span class="k">new</span> <span class="n">Date</span><span class="o">());</span>
+  <span class="o">}</span>
+
+  <span class="c1">// DON&#39;T DO IT!!! DateFormat is not thread-safe</span>
+  <span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="n">SimpleDateFormat</span> <span class="n">FORMAT</span> <span class="o">=</span>
+	<span class="k">new</span> <span class="nf">SimpleDateFormat</span><span class="o">(</span><span class="s">&quot;yyyy-MM-dd HH:mm:ss&quot;</span><span class="o">);</span>
+
+  <span class="kd">static</span> <span class="n">String</span> <span class="nf">format</span><span class="o">(</span><span class="n">Date</span> <span class="n">date</span><span class="o">)</span> <span class="o">{</span>
+    <span class="k">return</span> <span class="n">FORMAT</span><span class="o">.</span><span class="na">format</span><span class="o">(</span><span class="n">date</span><span class="o">);</span>
+  <span class="o">}</span>
+<span class="o">}</span>
+</code></pre>
+</div>
+
+<p>This solution is a result of assumption (which looks logically) that <code>SimpleDateFormat</code> is thread-safe. But it's not and this example is buggy. In multithread environment you'll definitely get unpredictable results. <strong>DON'T DO IT!!!</strong></p>
+
+<h3 id="3">3. Shared synchronized format</h3>
+
+<div class="highlight"><pre><code class="java"><span class="kn">import</span> <span class="nn">java.text.SimpleDateFormat</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.util.Date</span><span class="o">;</span>
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">FormatSharedSynchronized</span> <span class="o">{</span>
+  <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+    <span class="n">format</span><span class="o">(</span><span class="k">new</span> <span class="n">Date</span><span class="o">());</span>
+  <span class="o">}</span>
+
+  <span class="c1">// It&#39;s safe to reuse it from synchronized method</span>
+  <span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="n">SimpleDateFormat</span> <span class="n">FORMAT</span> <span class="o">=</span>
+	<span class="k">new</span> <span class="nf">SimpleDateFormat</span><span class="o">(</span><span class="s">&quot;yyyy-MM-dd HH:mm:ss&quot;</span><span class="o">);</span>
+
+  <span class="kd">synchronized</span> <span class="kd">static</span> <span class="n">String</span> <span class="nf">format</span><span class="o">(</span><span class="n">Date</span> <span class="n">date</span><span class="o">)</span> <span class="o">{</span>
+    <span class="k">return</span> <span class="n">FORMAT</span><span class="o">.</span><span class="na">format</span><span class="o">(</span><span class="n">date</span><span class="o">);</span>
+  <span class="o">}</span>
+<span class="o">}</span>
+</code></pre>
+</div>
+
+<p>This is quick obvious fix of previous approach. You just synchronize access to formatter. But this is not recommended way. This solution is not scalable by nature and suffer from thread contention. On multiprocessor systems it could become a bottleneck. And in this case even the <a href="#1">1</a> solution is a better way to go.</p>
+
+<h3 id="4">4. Shared thread local format</h3>
+
+<div class="highlight"><pre><code class="java"><span class="kn">import</span> <span class="nn">java.text.SimpleDateFormat</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.util.Date</span><span class="o">;</span>
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">FormatThreadLocal</span> <span class="o">{</span>
+  <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+    <span class="n">format</span><span class="o">(</span><span class="k">new</span> <span class="n">Date</span><span class="o">());</span>
+  <span class="o">}</span>
+
+  <span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="n">ThreadLocal</span><span class="o">&lt;</span><span class="n">SimpleDateFormat</span><span class="o">&gt;</span> <span class="n">FORMAT</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ThreadLocal</span><span class="o">&lt;</span><span class="n">SimpleDateFormat</span><span class="o">&gt;()</span> <span class="o">{</span>
+    <span class="nd">@Override</span>
+    <span class="kd">protected</span> <span class="n">SimpleDateFormat</span> <span class="nf">initialValue</span><span class="o">()</span> <span class="o">{</span>
+      <span class="k">return</span> <span class="k">new</span> <span class="nf">SimpleDateFormat</span><span class="o">(</span><span class="s">&quot;yyyy-MM-dd HH:mm:ss&quot;</span><span class="o">);</span>
+    <span class="o">}</span>
+  <span class="o">};</span>
+
+  <span class="kd">static</span> <span class="n">String</span> <span class="nf">format</span><span class="o">(</span><span class="n">Date</span> <span class="n">date</span><span class="o">)</span> <span class="o">{</span>
+    <span class="k">return</span> <span class="n">FORMAT</span><span class="o">.</span><span class="na">get</span><span class="o">().</span><span class="na">format</span><span class="o">(</span><span class="n">date</span><span class="o">);</span>
+  <span class="o">}</span>
+<span class="o">}</span>
+</code></pre>
+</div>
+
+<p>But if you really think (at this place you should measure real performance benefit) you will gain from formatter reuse, you should consider to use <a href="http://download.oracle.com/javase/6/docs/api/java/lang/ThreadLocal.html">TreadLocal</a>. In this example formatter will be shared only within thread.</p>
+
+<p>We reviewed all cases and I would really recommend to keep away from <a href="#2">2</a> and <a href="#3">3</a> solutions. <a href="#1">1</a> example is straightforward and preferable, unless you undesrstand that you'll win from reusing instance - then you should go with <a href="#4">4</a>. These advices applicable for any not thread-safe classes, so you can use them as patterns. But for your classes prefer immutability, which is naturally thread-safe.</p>
+
+
+</div>
+<div class="post-meta">
+	<span class="date">26 Mar 2011 | </span>
+	<span class="tags">
+		Tags:
+		
+			<a href="/tags/java" rel="tag">java, </a>
+		
+			<a href="/tags/formatting" rel="tag">formatting, </a>
+		
+			<a href="/tags/multithreading" rel="tag">multithreading</a>
+		
+	</span>
+</div>
+
+	</div>
+
+	<div id="footer">
+	</div>
+</body>
+</html>

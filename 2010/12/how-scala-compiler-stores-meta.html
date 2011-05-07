@@ -1,0 +1,84 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8"  />
+<meta name="description" content="Andrey Vityuk's Dev Blog" />
+<meta name="keywords" content="code,software,development" />
+<meta name="author" content="Andrey Vityuk" />
+<link rel="stylesheet" type="text/css" href="/stylesheets/default.css" />
+<link rel="stylesheet" type="text/css" href="/stylesheets/syntax.css" />
+
+<link rel="canonical" href="http://avityuk.github.com/2010/12/how-scala-compiler-stores-meta.html">
+
+<link rel="alternate" type="application/atom+xml" href="http://avityuk.github.com/atom.xml" />
+
+<title>How Scala compiler stores meta information</title>
+</head>
+<body>
+	<div id="header">
+	</div>
+
+	<div id="content">
+		<div id="post">
+	<h2><a href="/2010/12/how-scala-compiler-stores-meta.html" rel="bookmark">How Scala compiler stores meta information</a></h2>
+	
+	<div id="poster">
+		<img src="http://3.bp.blogspot.com/_MzPDIAgS1ow/TPtvknz8OgI/AAAAAAAARLI/mShNq4h6jxc/s320/scala.jpg" width="320px" height="253px" />
+	</div>
+	
+	<p>I was always wondering how Scala compiler fits into Java class file with all it's comprehensive language constructions. I felt there was some magic&hellip; Later in Scala 2.8 I faced a problem with calling method with default parameters using reflection. From a quick glance it seemed that there nothing complex. But wait, Scala allows methods overloading and how do you know which method has default parameters?</p>
+
+<p><a name="more"></a>
+Here we go. There is a <em>Pickled Scala Signature</em>. Thought this is required information for tools, libraries and IDEs developers I found only one <a href="http://www.scala-lang.org/sid/10">document</a> dedicated to this topic. Which is most likely Scala 2.7 -&gt; 2.8 migration manual. Prior to Scala 2.8 comiler stored
+signature bytes in class file attributes called <code>ScalaSig</code>. <a href="http://java.sun.com/docs/books/jvms/second_edition/html/ClassFile.doc.html#16733">According to JVM spec</a> custom attributes are allowed since JVM simply ignores unknown attributes. With this approach implement Scala reflection was painful. You had to parse class file again (why? JVM already did it) and only then parse signature itself. As of Scala 2.8 the things get changed. <code>ScalaSig</code> attribute has been replaced by runtime <code>scala.reflect.ScalaSignature</code> annotation. The task became much more easier. Annotation has only single String attribute called <code>bytes</code> which contains encoded (pickled) signature (above there is reference to Scala SID which describes bytes encoding in details).</p>
+
+<p>I spent some time on Scala compiler sources investigation. And created small tool which helps understanding of Scala signature. It visualizes
+pickle signature. You can check it out here: <a href="https://github.com/avityuk/scala-pickled-visualizer">https://github.com/avityuk/scala-pickled-visualizer</a>. Manual and some information on pickle format provided in README. Here I just want to show few sample output diagrams.</p>
+
+<h4 id="default-parameters">Default parameters:</h4>
+
+<div class="highlight"><pre><code class="scala"><span class="k">class</span> <span class="nc">TestClass1</span> <span class="o">{</span>
+  <span class="k">def</span> <span class="n">met</span><span class="o">(</span><span class="n">param1</span><span class="k">:</span> <span class="kt">Long</span><span class="o">)</span> <span class="k">=</span> <span class="s">&quot;method-1&quot;</span>
+  <span class="k">def</span> <span class="n">met</span><span class="o">(</span><span class="n">param1</span><span class="k">:</span> <span class="kt">Long</span> <span class="o">=</span> <span class="mi">445</span><span class="o">,</span> <span class="n">param2</span><span class="k">:</span> <span class="kt">String</span><span class="o">)</span> <span class="k">=</span> <span class="s">&quot;method-2&quot;</span>
+<span class="o">}</span>
+</code></pre>
+</div>
+
+<p>Diagram (default parameter vertex is highlighted):</p>
+
+<p><a href="http://2.bp.blogspot.com/_MzPDIAgS1ow/TPtpr0W5ldI/AAAAAAAARLA/zOemmMcQpQg/s1600/TestClass1.jpg"><img src="http://2.bp.blogspot.com/_MzPDIAgS1ow/TPtpr0W5ldI/AAAAAAAARLA/zOemmMcQpQg/s320/TestClass1.jpg" alt="" /></a></p>
+
+<h4 id="annotations">Annotations:</h4>
+
+<div class="highlight"><pre><code class="scala"><span class="nd">@XmlType</span>
+<span class="k">class</span> <span class="nc">TestClass2</span> <span class="o">{</span>
+  <span class="nd">@XmlAttribute</span>
+  <span class="k">val</span> <span class="n">f1</span> <span class="k">=</span> <span class="mf">150.75</span>
+<span class="o">}</span>
+</code></pre>
+</div>
+
+<p><a href="http://3.bp.blogspot.com/_MzPDIAgS1ow/TPtuhFeIZ7I/AAAAAAAARLE/dDnzoO_viLM/s1600/TestClass2.jpg"><img src="http://3.bp.blogspot.com/_MzPDIAgS1ow/TPtuhFeIZ7I/AAAAAAAARLE/dDnzoO_viLM/s320/TestClass2.jpg" alt="" /></a></p>
+
+
+</div>
+<div class="post-meta">
+	<span class="date">05 Dec 2010 | </span>
+	<span class="tags">
+		Tags:
+		
+			<a href="/tags/reflection" rel="tag">reflection, </a>
+		
+			<a href="/tags/compiler" rel="tag">compiler, </a>
+		
+			<a href="/tags/bytecode" rel="tag">bytecode</a>
+		
+	</span>
+</div>
+
+	</div>
+
+	<div id="footer">
+	</div>
+</body>
+</html>
