@@ -21,6 +21,7 @@
 	<div id="main">
 		<div id="content">
 			<div id="post">
+	<h2 class="date-header">Tuesday, March 22, 2011</h2>
 	<h3 class="post-title"><a href="/2011/03/java-generics-and-reflection.html" rel="bookmark">Java Generics and Reflection</a></h3>
 	
 	<p>"Officially" Java does not have information about generic types in runtime. But it's not absolutely true. There are some cases, which are utilized by smart frameworks like Spring and Google Guice. Let's explore these cases!</p>
@@ -241,20 +242,33 @@ m - java.util.List&lt;T extends java.util.List&lt;T&gt;&gt;
 <p>These techniques are useful if you are going to implement something that requires comprehensive meta information. Like bean property type conversion in Spring or data binding tool.</p>
 
 
-	<div class="post-meta">
-		<span class="date">22 Mar 2011 | </span>
-		<span class="tags">
-			Tags:
-			
-				<a href="/tags/reflection" rel="tag">reflection, </a>
-			
-				<a href="/tags/java" rel="tag">java, </a>
-			
-				<a href="/tags/generics" rel="tag">generics</a>
-			
-		</span>
+	<div class="post-tags">
+		Tags:
+		
+			<a href="/tags/reflection" rel="tag">reflection, </a>
+		
+			<a href="/tags/java" rel="tag">java, </a>
+		
+			<a href="/tags/generics" rel="tag">generics</a>
+		
 	</div>
 </div>
+<div id="comments">
+	<div id="disqus_thread"></div>
+	<script type="text/javascript">
+		var disqus_shortname = 'avityuk';
+		var disqus_identifier = '/2011/03/java-generics-and-reflection';
+		var disqus_url = 'http://blog.vityuk.com/2011/03/java-generics-and-reflection.html';
+		(function() {
+			var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+			dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+			(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+		})();
+	</script>
+	<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+	<a href="http://disqus.com" class="dsq-brlink">blog comments powered by <span class="logo-disqus">Disqus</span></a>
+</div>
+
 
 		</div>
 		<div id="sidebar">

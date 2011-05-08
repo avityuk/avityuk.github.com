@@ -21,6 +21,7 @@
 	<div id="main">
 		<div id="content">
 			<div id="post">
+	<h2 class="date-header">Thursday, March 31, 2011</h2>
 	<h3 class="post-title"><a href="/2011/03/lost-stack-trace.html" rel="bookmark">Lost Stack Trace</a></h3>
 	
 	<p>Last week our team faced another <code>NullPointerException</code> in our	development environment. As usual I started investigate log files to get full stack trace and find out reason of exception. Surprisingly, but the message I saw in log file was like:</p>
@@ -85,18 +86,31 @@ completely the use of preallocated exceptions, use this new flag: <strong>-XX:-O
 </div>
 
 
-	<div class="post-meta">
-		<span class="date">31 Mar 2011 | </span>
-		<span class="tags">
-			Tags:
-			
-				<a href="/tags/java" rel="tag">java, </a>
-			
-				<a href="/tags/debugging" rel="tag">debugging</a>
-			
-		</span>
+	<div class="post-tags">
+		Tags:
+		
+			<a href="/tags/java" rel="tag">java, </a>
+		
+			<a href="/tags/debugging" rel="tag">debugging</a>
+		
 	</div>
 </div>
+<div id="comments">
+	<div id="disqus_thread"></div>
+	<script type="text/javascript">
+		var disqus_shortname = 'avityuk';
+		var disqus_identifier = '/2011/03/lost-stack-trace';
+		var disqus_url = 'http://blog.vityuk.com/2011/03/lost-stack-trace.html';
+		(function() {
+			var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+			dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+			(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+		})();
+	</script>
+	<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+	<a href="http://disqus.com" class="dsq-brlink">blog comments powered by <span class="logo-disqus">Disqus</span></a>
+</div>
+
 
 		</div>
 		<div id="sidebar">
