@@ -15,24 +15,29 @@
 <title>Getting started with AppEngine + Scala</title>
 </head>
 <body>
-	<div id="header">
-		<h1><a id="blog-title" href="http://avityuk.github.com">Andrey Vityuk</a></h1>
-		Tips and walkthroughs on software development
+	<div id="header-wrapper">
+		<div id="header">
+			<h1><a id="blog-title" href="http://avityuk.github.com">Andrey Vityuk</a></h1>
+			Tips and walkthroughs on software development
+		</div>
 	</div>
 
-	<div id="main">
-		<div id="content">
-			<div id="post">
+	<div id="main-wrapper">
+		<div id="main">
+			<div id="content">
+				<div class="post">
 	<h2 class="date-header">Wednesday, June 02, 2010</h2>
 	<h3 class="post-title"><a href="/2010/06/running-appengine-scala.html" rel="bookmark">Getting started with AppEngine + Scala</a></h3>
 	
-	<div id="post-image">
+	<div class="post-image">
 		<img src="http://2.bp.blogspot.com/_MzPDIAgS1ow/TAaZmre_WXI/AAAAAAAAOFc/a2_E3nAacQI/s320/scala_appengine.png" width="315px" height="186px" />
 	</div>
 	
-	<p>This time, after long time-out I decided to continue blogging in english. Sorry for my english in advance, but I will try to do my best ;-)I spent some time playing with <a href="http://code.google.com/appengine/">Google App Engine</a> and <a href="http://www.scala-lang.org/">Scala</a> integration so I think it could be helpful for somebody else. Since they are both innovative technologies I could not resist the temptation to use unusual build tool with self-explanatory name <a href="http://code.google.com/p/simple-build-tool/">simple-build-tool</a>. In short, this is Maven-like build tool which actually works with Maven repositories (using Apache Ivy). But instead of boilerplate xml you get Scala code.<br />
-<a name="more"></a><br />
-First of all you need to <a href="http://code.google.com/p/simple-build-tool/wiki/Setup">install simple-build-tool</a>.<br />
+	<p>This time, after long time-out I decided to continue blogging in english. Sorry for my english in advance, but I will try to do my best ;-)I spent some time playing with <a href="http://code.google.com/appengine/">Google App Engine</a> and <a href="http://www.scala-lang.org/">Scala</a> integration so I think it could be helpful for somebody else. Since they are both innovative technologies I could not resist the temptation to use unusual build tool with self-explanatory name <a href="http://code.google.com/p/simple-build-tool/">simple-build-tool</a>. In short, this is Maven-like build tool which actually works with Maven repositories (using Apache Ivy). But instead of boilerplate xml you get Scala code.</p>
+
+<!-- more -->
+
+<p>First of all you need to <a href="http://code.google.com/p/simple-build-tool/wiki/Setup">install simple-build-tool</a>.<br />
 Let's create our project dir:</p>
 
 <pre><code>$ mkdir gae_scala
@@ -267,42 +272,45 @@ Here are several useful actions:</p>
 </div>
 
 
-		</div>
-		<div id="sidebar">
-			<div id="tags">
+			</div>
+			<div id="sidebar">
+				<div id="tags">
 	<h2>Tags</h2>
 	<div id="tags-cloud">
-		<span style="font-size: 67%"><a href="/tags/compiler/">compiler</a></span>
+		<span style="font-size: 67%"><a href="/tags/appengine/">appengine</a></span>
 <span style="font-size: 67%"><a href="/tags/bytecode/">bytecode</a></span>
+<span style="font-size: 67%"><a href="/tags/compiler/">compiler</a></span>
 <span style="font-size: 67%"><a href="/tags/debugging/">debugging</a></span>
-<span style="font-size: 135%"><a href="/tags/reflection/">reflection</a></span>
-<span style="font-size: 474%"><a href="/tags/java/">java</a></span>
-<span style="font-size: 67%"><a href="/tags/factory method/">factory method</a></span>
-<span style="font-size: 135%"><a href="/tags/pattern/">pattern</a></span>
-<span style="font-size: 67%"><a href="/tags/google/">google</a></span>
-<span style="font-size: 67%"><a href="/tags/sbt/">sbt</a></span>
+<span style="font-size: 67%"><a href="/tags/error-handling/">error handling</a></span>
+<span style="font-size: 67%"><a href="/tags/factory-method/">factory method</a></span>
 <span style="font-size: 67%"><a href="/tags/formatting/">formatting</a></span>
-<span style="font-size: 67%"><a href="/tags/error handling/">error handling</a></span>
-<span style="font-size: 67%"><a href="/tags/performance/">performance</a></span>
-<span style="font-size: 67%"><a href="/tags/jdbc/">jdbc</a></span>
-<span style="font-size: 67%"><a href="/tags/testing/">testing</a></span>
-<span style="font-size: 67%"><a href="/tags/appengine/">appengine</a></span>
 <span style="font-size: 67%"><a href="/tags/generics/">generics</a></span>
-<span style="font-size: 135%"><a href="/tags/scala/">scala</a></span>
-<span style="font-size: 67%"><a href="/tags/multithreading/">multithreading</a></span>
+<span style="font-size: 67%"><a href="/tags/google/">google</a></span>
+<span style="font-size: 474%"><a href="/tags/java/">java</a></span>
+<span style="font-size: 67%"><a href="/tags/jdbc/">jdbc</a></span>
 <span style="font-size: 135%"><a href="/tags/logging/">logging</a></span>
-<span style="font-size: 67%"><a href="/tags/web/">web</a></span>
 <span style="font-size: 67%"><a href="/tags/mock/">mock</a></span>
+<span style="font-size: 67%"><a href="/tags/multithreading/">multithreading</a></span>
+<span style="font-size: 135%"><a href="/tags/pattern/">pattern</a></span>
+<span style="font-size: 67%"><a href="/tags/performance/">performance</a></span>
+<span style="font-size: 135%"><a href="/tags/reflection/">reflection</a></span>
+<span style="font-size: 67%"><a href="/tags/sbt/">sbt</a></span>
+<span style="font-size: 135%"><a href="/tags/scala/">scala</a></span>
+<span style="font-size: 67%"><a href="/tags/testing/">testing</a></span>
+<span style="font-size: 67%"><a href="/tags/web/">web</a></span>
 
 	</div>
 </div>
 
+			</div>
+			<div style="clear: both;"></div>
 		</div>
-		<div style="clear: both;"></div>
 	</div>
 
-	<div id="footer">
-		Copyright &copy; 2011 All Rights Reserved.
+	<div id="footer-wrapper">
+		<div id="footer">
+			Copyright &copy; 2011 All Rights Reserved.
+		</div>
 	</div>
 </body>
 </html>

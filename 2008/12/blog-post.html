@@ -15,22 +15,27 @@
 <title>Подмена Синглтонов</title>
 </head>
 <body>
-	<div id="header">
-		<h1><a id="blog-title" href="http://avityuk.github.com">Andrey Vityuk</a></h1>
-		Tips and walkthroughs on software development
+	<div id="header-wrapper">
+		<div id="header">
+			<h1><a id="blog-title" href="http://avityuk.github.com">Andrey Vityuk</a></h1>
+			Tips and walkthroughs on software development
+		</div>
 	</div>
 
-	<div id="main">
-		<div id="content">
-			<div id="post">
+	<div id="main-wrapper">
+		<div id="main">
+			<div id="content">
+				<div class="post">
 	<h2 class="date-header">Wednesday, December 17, 2008</h2>
 	<h3 class="post-title"><a href="/2008/12/blog-post.html" rel="bookmark">Подмена Синглтонов</a></h3>
 	
-	<div id="post-image">
+	<div class="post-image">
 		<img src="http://2.bp.blogspot.com/_MzPDIAgS1ow/SYWiiNXWgDI/AAAAAAAAJr4/rMPEwUK1HsM/s320/sngleton.jpg" width="320px" height="234px" />
 	</div>
 	
 	<p>Недавно мне в очередной раз пришлось работать с кодом, полученным в наследство. И я, как честный преверженец <a href="http://en.wikipedia.org/wiki/Test-driven_development">TDD</a>, решил предже всего написать тесты на уже существующий класс. К своему огорчению сразу же обнаружил в коде вызов следующего вида: <code>IdGenerator.getInstance()</code>. Да, это он самый, "любимый" нами <a href="http://ru.wikipedia.org/wiki/%D0%9E%D0%B4%D0%B8%D0%BD%D0%BE%D1%87%D0%BA%D0%B0_%28%D1%88%D0%B0%D0%B1%D0%BB%D0%BE%D0%BD_%D0%BF%D1%80%D0%BE%D0%B5%D0%BA%D1%82%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D1%8F%29">синглтон</a>.</p>
+
+<!-- more -->
 
 <p><em>UserService.java:</em></p>
 
@@ -264,42 +269,45 @@
 </div>
 
 
-		</div>
-		<div id="sidebar">
-			<div id="tags">
+			</div>
+			<div id="sidebar">
+				<div id="tags">
 	<h2>Tags</h2>
 	<div id="tags-cloud">
-		<span style="font-size: 67%"><a href="/tags/compiler/">compiler</a></span>
+		<span style="font-size: 67%"><a href="/tags/appengine/">appengine</a></span>
 <span style="font-size: 67%"><a href="/tags/bytecode/">bytecode</a></span>
+<span style="font-size: 67%"><a href="/tags/compiler/">compiler</a></span>
 <span style="font-size: 67%"><a href="/tags/debugging/">debugging</a></span>
-<span style="font-size: 135%"><a href="/tags/reflection/">reflection</a></span>
-<span style="font-size: 474%"><a href="/tags/java/">java</a></span>
-<span style="font-size: 67%"><a href="/tags/factory method/">factory method</a></span>
-<span style="font-size: 135%"><a href="/tags/pattern/">pattern</a></span>
-<span style="font-size: 67%"><a href="/tags/google/">google</a></span>
-<span style="font-size: 67%"><a href="/tags/sbt/">sbt</a></span>
+<span style="font-size: 67%"><a href="/tags/error-handling/">error handling</a></span>
+<span style="font-size: 67%"><a href="/tags/factory-method/">factory method</a></span>
 <span style="font-size: 67%"><a href="/tags/formatting/">formatting</a></span>
-<span style="font-size: 67%"><a href="/tags/error handling/">error handling</a></span>
-<span style="font-size: 67%"><a href="/tags/performance/">performance</a></span>
-<span style="font-size: 67%"><a href="/tags/jdbc/">jdbc</a></span>
-<span style="font-size: 67%"><a href="/tags/testing/">testing</a></span>
-<span style="font-size: 67%"><a href="/tags/appengine/">appengine</a></span>
 <span style="font-size: 67%"><a href="/tags/generics/">generics</a></span>
-<span style="font-size: 135%"><a href="/tags/scala/">scala</a></span>
-<span style="font-size: 67%"><a href="/tags/multithreading/">multithreading</a></span>
+<span style="font-size: 67%"><a href="/tags/google/">google</a></span>
+<span style="font-size: 474%"><a href="/tags/java/">java</a></span>
+<span style="font-size: 67%"><a href="/tags/jdbc/">jdbc</a></span>
 <span style="font-size: 135%"><a href="/tags/logging/">logging</a></span>
-<span style="font-size: 67%"><a href="/tags/web/">web</a></span>
 <span style="font-size: 67%"><a href="/tags/mock/">mock</a></span>
+<span style="font-size: 67%"><a href="/tags/multithreading/">multithreading</a></span>
+<span style="font-size: 135%"><a href="/tags/pattern/">pattern</a></span>
+<span style="font-size: 67%"><a href="/tags/performance/">performance</a></span>
+<span style="font-size: 135%"><a href="/tags/reflection/">reflection</a></span>
+<span style="font-size: 67%"><a href="/tags/sbt/">sbt</a></span>
+<span style="font-size: 135%"><a href="/tags/scala/">scala</a></span>
+<span style="font-size: 67%"><a href="/tags/testing/">testing</a></span>
+<span style="font-size: 67%"><a href="/tags/web/">web</a></span>
 
 	</div>
 </div>
 
+			</div>
+			<div style="clear: both;"></div>
 		</div>
-		<div style="clear: both;"></div>
 	</div>
 
-	<div id="footer">
-		Copyright &copy; 2011 All Rights Reserved.
+	<div id="footer-wrapper">
+		<div id="footer">
+			Copyright &copy; 2011 All Rights Reserved.
+		</div>
 	</div>
 </body>
 </html>

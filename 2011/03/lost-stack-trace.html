@@ -15,14 +15,17 @@
 <title>Lost Stack Trace</title>
 </head>
 <body>
-	<div id="header">
-		<h1><a id="blog-title" href="http://avityuk.github.com">Andrey Vityuk</a></h1>
-		Tips and walkthroughs on software development
+	<div id="header-wrapper">
+		<div id="header">
+			<h1><a id="blog-title" href="http://avityuk.github.com">Andrey Vityuk</a></h1>
+			Tips and walkthroughs on software development
+		</div>
 	</div>
 
-	<div id="main">
-		<div id="content">
-			<div id="post">
+	<div id="main-wrapper">
+		<div id="main">
+			<div id="content">
+				<div class="post">
 	<h2 class="date-header">Thursday, March 31, 2011</h2>
 	<h3 class="post-title"><a href="/2011/03/lost-stack-trace.html" rel="bookmark">Lost Stack Trace</a></h3>
 	
@@ -33,8 +36,9 @@
 
 <p>I realized that there was something wrong in logging code, hence we are loosing stack trace. I checked code which produces this log and didn't find anything unusual. Then I asked my colleague to double check it may be I miss something. He reproduced the same exception on his desktop and showed me nice log statement with full stack trace. We started to feel that there is some magic behind that. Whole team started googling and finally we found the answer.</p>
 
-<p><a name="more"></a>
-There was <a href="http://stackoverflow.com/questions/2411487/nullpointerexception-in-java-with-no-stacktrace">discussion on stackoverflow</a> about this issue. And answer was there. As we guessed it was HotSpot magic. Here is example which reveals the problem:    </p>
+<!-- more -->
+
+<p>There was <a href="http://stackoverflow.com/questions/2411487/nullpointerexception-in-java-with-no-stacktrace">discussion on stackoverflow</a> about this issue. And answer was there. As we guessed it was HotSpot magic. Here is example which reveals the problem:    </p>
 
 <div class="highlight"><pre><code class="java"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">LostStackTrace</span> <span class="o">{</span>
   <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
@@ -114,42 +118,45 @@ completely the use of preallocated exceptions, use this new flag: <strong>-XX:-O
 </div>
 
 
-		</div>
-		<div id="sidebar">
-			<div id="tags">
+			</div>
+			<div id="sidebar">
+				<div id="tags">
 	<h2>Tags</h2>
 	<div id="tags-cloud">
-		<span style="font-size: 67%"><a href="/tags/compiler/">compiler</a></span>
+		<span style="font-size: 67%"><a href="/tags/appengine/">appengine</a></span>
 <span style="font-size: 67%"><a href="/tags/bytecode/">bytecode</a></span>
+<span style="font-size: 67%"><a href="/tags/compiler/">compiler</a></span>
 <span style="font-size: 67%"><a href="/tags/debugging/">debugging</a></span>
-<span style="font-size: 135%"><a href="/tags/reflection/">reflection</a></span>
-<span style="font-size: 474%"><a href="/tags/java/">java</a></span>
-<span style="font-size: 67%"><a href="/tags/factory method/">factory method</a></span>
-<span style="font-size: 135%"><a href="/tags/pattern/">pattern</a></span>
-<span style="font-size: 67%"><a href="/tags/google/">google</a></span>
-<span style="font-size: 67%"><a href="/tags/sbt/">sbt</a></span>
+<span style="font-size: 67%"><a href="/tags/error-handling/">error handling</a></span>
+<span style="font-size: 67%"><a href="/tags/factory-method/">factory method</a></span>
 <span style="font-size: 67%"><a href="/tags/formatting/">formatting</a></span>
-<span style="font-size: 67%"><a href="/tags/error handling/">error handling</a></span>
-<span style="font-size: 67%"><a href="/tags/performance/">performance</a></span>
-<span style="font-size: 67%"><a href="/tags/jdbc/">jdbc</a></span>
-<span style="font-size: 67%"><a href="/tags/testing/">testing</a></span>
-<span style="font-size: 67%"><a href="/tags/appengine/">appengine</a></span>
 <span style="font-size: 67%"><a href="/tags/generics/">generics</a></span>
-<span style="font-size: 135%"><a href="/tags/scala/">scala</a></span>
-<span style="font-size: 67%"><a href="/tags/multithreading/">multithreading</a></span>
+<span style="font-size: 67%"><a href="/tags/google/">google</a></span>
+<span style="font-size: 474%"><a href="/tags/java/">java</a></span>
+<span style="font-size: 67%"><a href="/tags/jdbc/">jdbc</a></span>
 <span style="font-size: 135%"><a href="/tags/logging/">logging</a></span>
-<span style="font-size: 67%"><a href="/tags/web/">web</a></span>
 <span style="font-size: 67%"><a href="/tags/mock/">mock</a></span>
+<span style="font-size: 67%"><a href="/tags/multithreading/">multithreading</a></span>
+<span style="font-size: 135%"><a href="/tags/pattern/">pattern</a></span>
+<span style="font-size: 67%"><a href="/tags/performance/">performance</a></span>
+<span style="font-size: 135%"><a href="/tags/reflection/">reflection</a></span>
+<span style="font-size: 67%"><a href="/tags/sbt/">sbt</a></span>
+<span style="font-size: 135%"><a href="/tags/scala/">scala</a></span>
+<span style="font-size: 67%"><a href="/tags/testing/">testing</a></span>
+<span style="font-size: 67%"><a href="/tags/web/">web</a></span>
 
 	</div>
 </div>
 
+			</div>
+			<div style="clear: both;"></div>
 		</div>
-		<div style="clear: both;"></div>
 	</div>
 
-	<div id="footer">
-		Copyright &copy; 2011 All Rights Reserved.
+	<div id="footer-wrapper">
+		<div id="footer">
+			Copyright &copy; 2011 All Rights Reserved.
+		</div>
 	</div>
 </body>
 </html>

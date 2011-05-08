@@ -15,22 +15,26 @@
 <title>Java Formatters Best Practices</title>
 </head>
 <body>
-	<div id="header">
-		<h1><a id="blog-title" href="http://avityuk.github.com">Andrey Vityuk</a></h1>
-		Tips and walkthroughs on software development
+	<div id="header-wrapper">
+		<div id="header">
+			<h1><a id="blog-title" href="http://avityuk.github.com">Andrey Vityuk</a></h1>
+			Tips and walkthroughs on software development
+		</div>
 	</div>
 
-	<div id="main">
-		<div id="content">
-			<div id="post">
+	<div id="main-wrapper">
+		<div id="main">
+			<div id="content">
+				<div class="post">
 	<h2 class="date-header">Saturday, March 26, 2011</h2>
 	<h3 class="post-title"><a href="/2011/03/java-formatters-best-practices.html" rel="bookmark">Java Formatters Best Practices</a></h3>
 	
 	<p>Java API has set of classes for formatting and parsing dates and
 numbers. Mostly used are: <code>java.text.DateFormat</code> and <code>java.text.NumberFormat</code>. Often when interviewing candidates I ask them whether JDK date and number formatters are thread-safe. Surprisingly most of them don't know the right answer, hence I decided to describe common pitfalls with formatters usage.</p>
 
-<p><a name="more"></a>
-As you can guess both <code>DateFormat</code> and <code>NumberFormat</code> are not thread-safe. This is old known Java API design mistake. Nowadays all agreed that they supposed to be immutable instead of mutable. There is awesome alternative for dates - <a href="http://joda-time.sourceforge.net/">Joda Time</a>. Which is pretty mature and was taken as a base for <a href="http://java.net/projects/jsr-310/">JSR-310</a>. I am personally recommend to stick with Joda Time if you can choose, because on our project we have great impression of using it. But if you have to deal with JDK date (and I don't know good alternatives for numbers) you should be ready to use them correctly. Let's go over formatting common patterns. In my examples I will use <code>SimpleDateFormatter</code> for formatting date. But all examples applicable for <code>NumberFormat</code> and for parsing strings.</p>
+<!-- more -->
+
+<p>As you can guess both <code>DateFormat</code> and <code>NumberFormat</code> are not thread-safe. This is old known Java API design mistake. Nowadays all agreed that they supposed to be immutable instead of mutable. There is awesome alternative for dates - <a href="http://joda-time.sourceforge.net/">Joda Time</a>. Which is pretty mature and was taken as a base for <a href="http://java.net/projects/jsr-310/">JSR-310</a>. I am personally recommend to stick with Joda Time if you can choose, because on our project we have great impression of using it. But if you have to deal with JDK date (and I don't know good alternatives for numbers) you should be ready to use them correctly. Let's go over formatting common patterns. In my examples I will use <code>SimpleDateFormatter</code> for formatting date. But all examples applicable for <code>NumberFormat</code> and for parsing strings.</p>
 
 <h3 id="1">1. Local format</h3>
 
@@ -156,42 +160,45 @@ As you can guess both <code>DateFormat</code> and <code>NumberFormat</code> are 
 </div>
 
 
-		</div>
-		<div id="sidebar">
-			<div id="tags">
+			</div>
+			<div id="sidebar">
+				<div id="tags">
 	<h2>Tags</h2>
 	<div id="tags-cloud">
-		<span style="font-size: 67%"><a href="/tags/compiler/">compiler</a></span>
+		<span style="font-size: 67%"><a href="/tags/appengine/">appengine</a></span>
 <span style="font-size: 67%"><a href="/tags/bytecode/">bytecode</a></span>
+<span style="font-size: 67%"><a href="/tags/compiler/">compiler</a></span>
 <span style="font-size: 67%"><a href="/tags/debugging/">debugging</a></span>
-<span style="font-size: 135%"><a href="/tags/reflection/">reflection</a></span>
-<span style="font-size: 474%"><a href="/tags/java/">java</a></span>
-<span style="font-size: 67%"><a href="/tags/factory method/">factory method</a></span>
-<span style="font-size: 135%"><a href="/tags/pattern/">pattern</a></span>
-<span style="font-size: 67%"><a href="/tags/google/">google</a></span>
-<span style="font-size: 67%"><a href="/tags/sbt/">sbt</a></span>
+<span style="font-size: 67%"><a href="/tags/error-handling/">error handling</a></span>
+<span style="font-size: 67%"><a href="/tags/factory-method/">factory method</a></span>
 <span style="font-size: 67%"><a href="/tags/formatting/">formatting</a></span>
-<span style="font-size: 67%"><a href="/tags/error handling/">error handling</a></span>
-<span style="font-size: 67%"><a href="/tags/performance/">performance</a></span>
-<span style="font-size: 67%"><a href="/tags/jdbc/">jdbc</a></span>
-<span style="font-size: 67%"><a href="/tags/testing/">testing</a></span>
-<span style="font-size: 67%"><a href="/tags/appengine/">appengine</a></span>
 <span style="font-size: 67%"><a href="/tags/generics/">generics</a></span>
-<span style="font-size: 135%"><a href="/tags/scala/">scala</a></span>
-<span style="font-size: 67%"><a href="/tags/multithreading/">multithreading</a></span>
+<span style="font-size: 67%"><a href="/tags/google/">google</a></span>
+<span style="font-size: 474%"><a href="/tags/java/">java</a></span>
+<span style="font-size: 67%"><a href="/tags/jdbc/">jdbc</a></span>
 <span style="font-size: 135%"><a href="/tags/logging/">logging</a></span>
-<span style="font-size: 67%"><a href="/tags/web/">web</a></span>
 <span style="font-size: 67%"><a href="/tags/mock/">mock</a></span>
+<span style="font-size: 67%"><a href="/tags/multithreading/">multithreading</a></span>
+<span style="font-size: 135%"><a href="/tags/pattern/">pattern</a></span>
+<span style="font-size: 67%"><a href="/tags/performance/">performance</a></span>
+<span style="font-size: 135%"><a href="/tags/reflection/">reflection</a></span>
+<span style="font-size: 67%"><a href="/tags/sbt/">sbt</a></span>
+<span style="font-size: 135%"><a href="/tags/scala/">scala</a></span>
+<span style="font-size: 67%"><a href="/tags/testing/">testing</a></span>
+<span style="font-size: 67%"><a href="/tags/web/">web</a></span>
 
 	</div>
 </div>
 
+			</div>
+			<div style="clear: both;"></div>
 		</div>
-		<div style="clear: both;"></div>
 	</div>
 
-	<div id="footer">
-		Copyright &copy; 2011 All Rights Reserved.
+	<div id="footer-wrapper">
+		<div id="footer">
+			Copyright &copy; 2011 All Rights Reserved.
+		</div>
 	</div>
 </body>
 </html>

@@ -10,74 +10,91 @@
 
 <link rel="alternate" type="application/atom+xml" href="http://avityuk.github.com/atom.xml" />
 
-<title>Tags: testing</title>
+<title>Tag: testing</title>
 </head>
 <body>
-	<div id="header">
-		<h1><a id="blog-title" href="http://avityuk.github.com">Andrey Vityuk</a></h1>
-		Tips and walkthroughs on software development
+	<div id="header-wrapper">
+		<div id="header">
+			<h1><a id="blog-title" href="http://avityuk.github.com">Andrey Vityuk</a></h1>
+			Tips and walkthroughs on software development
+		</div>
 	</div>
 
-	<div id="main">
-		<div id="content">
-			<div id="tag-posts">
+	<div id="main-wrapper">
+		<div id="main">
+			<div id="content">
+				
+<div id="posts">
 	
 	<div class="post">
-		<h2><a href="/2008/12/blog-post.html" rel="bookmark">Подмена Синглтонов</a></h2>
-		<div class="post-meta">
-	<span class="date">17 Dec 2008 | </span>
-	<span class="tags">
-		Tags:
+		<h2 class="date-header">Wednesday, December 17, 2008</h2>
+		<h3 class="post-title"><a href="/2008/12/blog-post.html" rel="bookmark">Подмена Синглтонов</a></h3>
 		
-			<a href="/tags/java" rel="tag">java, </a>
+		<div class="post-image">
+			<img src="http://2.bp.blogspot.com/_MzPDIAgS1ow/SYWiiNXWgDI/AAAAAAAAJr4/rMPEwUK1HsM/s320/sngleton.jpg" width="320px" height="234px" />
+		</div>
 		
-			<a href="/tags/mock" rel="tag">mock, </a>
-		
-			<a href="/tags/pattern" rel="tag">pattern</a>
-		
-	</span>
-</div>
+		Недавно мне в очередной раз пришлось работать с кодом, полученным в наследство. И я, как честный преверженец [TDD][1], решил предже всего написать тесты на уже существующий класс. К своему огорчению сразу же обнаружил в коде вызов следующего вида: `IdGenerator.getInstance()`. Да, это он самый, \"любимый\" нами [синглтон][2].
 
+
+		<a href="/2008/12/blog-post.html">Read More &raquo;</a>
+
+		<div class="post-tags">
+			Tags:
+			
+				<a href="/tags/java" rel="tag">java, </a>
+			
+				<a href="/tags/mock" rel="tag">mock, </a>
+			
+				<a href="/tags/pattern" rel="tag">pattern, </a>
+			
+				<a href="/tags/testing" rel="tag">testing</a>
+			
+		</div>
 	</div>
 	
 </div>
 
-		</div>
-		<div id="sidebar">
-			<div id="tags">
+
+			</div>
+			<div id="sidebar">
+				<div id="tags">
 	<h2>Tags</h2>
 	<div id="tags-cloud">
-		<span style="font-size: 67%"><a href="/tags/compiler/">compiler</a></span>
+		<span style="font-size: 67%"><a href="/tags/appengine/">appengine</a></span>
 <span style="font-size: 67%"><a href="/tags/bytecode/">bytecode</a></span>
+<span style="font-size: 67%"><a href="/tags/compiler/">compiler</a></span>
 <span style="font-size: 67%"><a href="/tags/debugging/">debugging</a></span>
-<span style="font-size: 135%"><a href="/tags/reflection/">reflection</a></span>
-<span style="font-size: 474%"><a href="/tags/java/">java</a></span>
-<span style="font-size: 67%"><a href="/tags/factory method/">factory method</a></span>
-<span style="font-size: 135%"><a href="/tags/pattern/">pattern</a></span>
-<span style="font-size: 67%"><a href="/tags/google/">google</a></span>
-<span style="font-size: 67%"><a href="/tags/sbt/">sbt</a></span>
+<span style="font-size: 67%"><a href="/tags/error-handling/">error handling</a></span>
+<span style="font-size: 67%"><a href="/tags/factory-method/">factory method</a></span>
 <span style="font-size: 67%"><a href="/tags/formatting/">formatting</a></span>
-<span style="font-size: 67%"><a href="/tags/error handling/">error handling</a></span>
-<span style="font-size: 67%"><a href="/tags/performance/">performance</a></span>
-<span style="font-size: 67%"><a href="/tags/jdbc/">jdbc</a></span>
-<span style="font-size: 67%"><a href="/tags/testing/">testing</a></span>
-<span style="font-size: 67%"><a href="/tags/appengine/">appengine</a></span>
 <span style="font-size: 67%"><a href="/tags/generics/">generics</a></span>
-<span style="font-size: 135%"><a href="/tags/scala/">scala</a></span>
-<span style="font-size: 67%"><a href="/tags/multithreading/">multithreading</a></span>
+<span style="font-size: 67%"><a href="/tags/google/">google</a></span>
+<span style="font-size: 474%"><a href="/tags/java/">java</a></span>
+<span style="font-size: 67%"><a href="/tags/jdbc/">jdbc</a></span>
 <span style="font-size: 135%"><a href="/tags/logging/">logging</a></span>
-<span style="font-size: 67%"><a href="/tags/web/">web</a></span>
 <span style="font-size: 67%"><a href="/tags/mock/">mock</a></span>
+<span style="font-size: 67%"><a href="/tags/multithreading/">multithreading</a></span>
+<span style="font-size: 135%"><a href="/tags/pattern/">pattern</a></span>
+<span style="font-size: 67%"><a href="/tags/performance/">performance</a></span>
+<span style="font-size: 135%"><a href="/tags/reflection/">reflection</a></span>
+<span style="font-size: 67%"><a href="/tags/sbt/">sbt</a></span>
+<span style="font-size: 135%"><a href="/tags/scala/">scala</a></span>
+<span style="font-size: 67%"><a href="/tags/testing/">testing</a></span>
+<span style="font-size: 67%"><a href="/tags/web/">web</a></span>
 
 	</div>
 </div>
 
+			</div>
+			<div style="clear: both;"></div>
 		</div>
-		<div style="clear: both;"></div>
 	</div>
 
-	<div id="footer">
-		Copyright &copy; 2011 All Rights Reserved.
+	<div id="footer-wrapper">
+		<div id="footer">
+			Copyright &copy; 2011 All Rights Reserved.
+		</div>
 	</div>
 </body>
 </html>

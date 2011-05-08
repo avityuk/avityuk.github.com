@@ -15,25 +15,29 @@
 <title>How Scala compiler stores meta information</title>
 </head>
 <body>
-	<div id="header">
-		<h1><a id="blog-title" href="http://avityuk.github.com">Andrey Vityuk</a></h1>
-		Tips and walkthroughs on software development
+	<div id="header-wrapper">
+		<div id="header">
+			<h1><a id="blog-title" href="http://avityuk.github.com">Andrey Vityuk</a></h1>
+			Tips and walkthroughs on software development
+		</div>
 	</div>
 
-	<div id="main">
-		<div id="content">
-			<div id="post">
+	<div id="main-wrapper">
+		<div id="main">
+			<div id="content">
+				<div class="post">
 	<h2 class="date-header">Sunday, December 05, 2010</h2>
 	<h3 class="post-title"><a href="/2010/12/how-scala-compiler-stores-meta.html" rel="bookmark">How Scala compiler stores meta information</a></h3>
 	
-	<div id="post-image">
+	<div class="post-image">
 		<img src="http://3.bp.blogspot.com/_MzPDIAgS1ow/TPtvknz8OgI/AAAAAAAARLI/mShNq4h6jxc/s320/scala.jpg" width="320px" height="253px" />
 	</div>
 	
 	<p>I was always wondering how Scala compiler fits into Java class file with all it's comprehensive language constructions. I felt there was some magic&hellip; Later in Scala 2.8 I faced a problem with calling method with default parameters using reflection. From a quick glance it seemed that there nothing complex. But wait, Scala allows methods overloading and how do you know which method has default parameters?</p>
 
-<p><a name="more"></a>
-Here we go. There is a <em>Pickled Scala Signature</em>. Thought this is required information for tools, libraries and IDEs developers I found only one <a href="http://www.scala-lang.org/sid/10">document</a> dedicated to this topic. Which is most likely Scala 2.7 -&gt; 2.8 migration manual. Prior to Scala 2.8 comiler stored
+<!-- more -->
+
+<p>Here we go. There is a <em>Pickled Scala Signature</em>. Thought this is required information for tools, libraries and IDEs developers I found only one <a href="http://www.scala-lang.org/sid/10">document</a> dedicated to this topic. Which is most likely Scala 2.7 -&gt; 2.8 migration manual. Prior to Scala 2.8 comiler stored
 signature bytes in class file attributes called <code>ScalaSig</code>. <a href="http://java.sun.com/docs/books/jvms/second_edition/html/ClassFile.doc.html#16733">According to JVM spec</a> custom attributes are allowed since JVM simply ignores unknown attributes. With this approach implement Scala reflection was painful. You had to parse class file again (why? JVM already did it) and only then parse signature itself. As of Scala 2.8 the things get changed. <code>ScalaSig</code> attribute has been replaced by runtime <code>scala.reflect.ScalaSignature</code> annotation. The task became much more easier. Annotation has only single String attribute called <code>bytes</code> which contains encoded (pickled) signature (above there is reference to Scala SID which describes bytes encoding in details).</p>
 
 <p>I spent some time on Scala compiler sources investigation. And created small tool which helps understanding of Scala signature. It visualizes
@@ -96,42 +100,45 @@ pickle signature. You can check it out here: <a href="https://github.com/avityuk
 </div>
 
 
-		</div>
-		<div id="sidebar">
-			<div id="tags">
+			</div>
+			<div id="sidebar">
+				<div id="tags">
 	<h2>Tags</h2>
 	<div id="tags-cloud">
-		<span style="font-size: 67%"><a href="/tags/compiler/">compiler</a></span>
+		<span style="font-size: 67%"><a href="/tags/appengine/">appengine</a></span>
 <span style="font-size: 67%"><a href="/tags/bytecode/">bytecode</a></span>
+<span style="font-size: 67%"><a href="/tags/compiler/">compiler</a></span>
 <span style="font-size: 67%"><a href="/tags/debugging/">debugging</a></span>
-<span style="font-size: 135%"><a href="/tags/reflection/">reflection</a></span>
-<span style="font-size: 474%"><a href="/tags/java/">java</a></span>
-<span style="font-size: 67%"><a href="/tags/factory method/">factory method</a></span>
-<span style="font-size: 135%"><a href="/tags/pattern/">pattern</a></span>
-<span style="font-size: 67%"><a href="/tags/google/">google</a></span>
-<span style="font-size: 67%"><a href="/tags/sbt/">sbt</a></span>
+<span style="font-size: 67%"><a href="/tags/error-handling/">error handling</a></span>
+<span style="font-size: 67%"><a href="/tags/factory-method/">factory method</a></span>
 <span style="font-size: 67%"><a href="/tags/formatting/">formatting</a></span>
-<span style="font-size: 67%"><a href="/tags/error handling/">error handling</a></span>
-<span style="font-size: 67%"><a href="/tags/performance/">performance</a></span>
-<span style="font-size: 67%"><a href="/tags/jdbc/">jdbc</a></span>
-<span style="font-size: 67%"><a href="/tags/testing/">testing</a></span>
-<span style="font-size: 67%"><a href="/tags/appengine/">appengine</a></span>
 <span style="font-size: 67%"><a href="/tags/generics/">generics</a></span>
-<span style="font-size: 135%"><a href="/tags/scala/">scala</a></span>
-<span style="font-size: 67%"><a href="/tags/multithreading/">multithreading</a></span>
+<span style="font-size: 67%"><a href="/tags/google/">google</a></span>
+<span style="font-size: 474%"><a href="/tags/java/">java</a></span>
+<span style="font-size: 67%"><a href="/tags/jdbc/">jdbc</a></span>
 <span style="font-size: 135%"><a href="/tags/logging/">logging</a></span>
-<span style="font-size: 67%"><a href="/tags/web/">web</a></span>
 <span style="font-size: 67%"><a href="/tags/mock/">mock</a></span>
+<span style="font-size: 67%"><a href="/tags/multithreading/">multithreading</a></span>
+<span style="font-size: 135%"><a href="/tags/pattern/">pattern</a></span>
+<span style="font-size: 67%"><a href="/tags/performance/">performance</a></span>
+<span style="font-size: 135%"><a href="/tags/reflection/">reflection</a></span>
+<span style="font-size: 67%"><a href="/tags/sbt/">sbt</a></span>
+<span style="font-size: 135%"><a href="/tags/scala/">scala</a></span>
+<span style="font-size: 67%"><a href="/tags/testing/">testing</a></span>
+<span style="font-size: 67%"><a href="/tags/web/">web</a></span>
 
 	</div>
 </div>
 
+			</div>
+			<div style="clear: both;"></div>
 		</div>
-		<div style="clear: both;"></div>
 	</div>
 
-	<div id="footer">
-		Copyright &copy; 2011 All Rights Reserved.
+	<div id="footer-wrapper">
+		<div id="footer">
+			Copyright &copy; 2011 All Rights Reserved.
+		</div>
 	</div>
 </body>
 </html>

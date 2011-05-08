@@ -15,25 +15,29 @@
 <title>Фабричный метод</title>
 </head>
 <body>
-	<div id="header">
-		<h1><a id="blog-title" href="http://avityuk.github.com">Andrey Vityuk</a></h1>
-		Tips and walkthroughs on software development
+	<div id="header-wrapper">
+		<div id="header">
+			<h1><a id="blog-title" href="http://avityuk.github.com">Andrey Vityuk</a></h1>
+			Tips and walkthroughs on software development
+		</div>
 	</div>
 
-	<div id="main">
-		<div id="content">
-			<div id="post">
+	<div id="main-wrapper">
+		<div id="main">
+			<div id="content">
+				<div class="post">
 	<h2 class="date-header">Sunday, March 22, 2009</h2>
 	<h3 class="post-title"><a href="/2009/03/blog-post.html" rel="bookmark">Фабричный метод</a></h3>
 	
-	<div id="post-image">
+	<div class="post-image">
 		<img src="http://2.bp.blogspot.com/_MzPDIAgS1ow/ScY48e6QaTI/AAAAAAAAJ6Y/WkCsn9_myxU/s400/magican.jpg" width="304px" height="400px" />
 	</div>
 	
 	<p>В этот раз речь пойдет о паттернах проектирования. Если быть точнее — <strong>Статическом фабричном методе (<a href="http://en.wikipedia.org/wiki/Factory_method_pattern#Encapsulation">Static Factory Method</a>)</strong>. Вкратце, он призван для того, чтобы инкапсулировать процесс создания объекта.  </p>
 
-<p>Допустим, у нас есть метод, который возвращает определенный набор (список) данных. Этот метод должен иметь возможность вернуть для каждой единицы фактический результат или ошибку. Естественно, что в таком случае исключения бросать нельзя, иначе мы не получим "хорошие" данные. Обычно, в таких целях используется объект-контейнер, который хранит или данные или ошибку или просто пустой.<br />
-<a name="more"></a></p>
+<p>Допустим, у нас есть метод, который возвращает определенный набор (список) данных. Этот метод должен иметь возможность вернуть для каждой единицы фактический результат или ошибку. Естественно, что в таком случае исключения бросать нельзя, иначе мы не получим "хорошие" данные. Обычно, в таких целях используется объект-контейнер, который хранит или данные или ошибку или просто пустой.</p>
+
+<!-- more -->
 
 <p><img src="http://2.bp.blogspot.com/_MzPDIAgS1ow/ScYL6elUhfI/AAAAAAAAJ6I/ooU5hz-_hWI/s400/1.png" alt="Response" /></p>
 
@@ -755,42 +759,45 @@
 </div>
 
 
-		</div>
-		<div id="sidebar">
-			<div id="tags">
+			</div>
+			<div id="sidebar">
+				<div id="tags">
 	<h2>Tags</h2>
 	<div id="tags-cloud">
-		<span style="font-size: 67%"><a href="/tags/compiler/">compiler</a></span>
+		<span style="font-size: 67%"><a href="/tags/appengine/">appengine</a></span>
 <span style="font-size: 67%"><a href="/tags/bytecode/">bytecode</a></span>
+<span style="font-size: 67%"><a href="/tags/compiler/">compiler</a></span>
 <span style="font-size: 67%"><a href="/tags/debugging/">debugging</a></span>
-<span style="font-size: 135%"><a href="/tags/reflection/">reflection</a></span>
-<span style="font-size: 474%"><a href="/tags/java/">java</a></span>
-<span style="font-size: 67%"><a href="/tags/factory method/">factory method</a></span>
-<span style="font-size: 135%"><a href="/tags/pattern/">pattern</a></span>
-<span style="font-size: 67%"><a href="/tags/google/">google</a></span>
-<span style="font-size: 67%"><a href="/tags/sbt/">sbt</a></span>
+<span style="font-size: 67%"><a href="/tags/error-handling/">error handling</a></span>
+<span style="font-size: 67%"><a href="/tags/factory-method/">factory method</a></span>
 <span style="font-size: 67%"><a href="/tags/formatting/">formatting</a></span>
-<span style="font-size: 67%"><a href="/tags/error handling/">error handling</a></span>
-<span style="font-size: 67%"><a href="/tags/performance/">performance</a></span>
-<span style="font-size: 67%"><a href="/tags/jdbc/">jdbc</a></span>
-<span style="font-size: 67%"><a href="/tags/testing/">testing</a></span>
-<span style="font-size: 67%"><a href="/tags/appengine/">appengine</a></span>
 <span style="font-size: 67%"><a href="/tags/generics/">generics</a></span>
-<span style="font-size: 135%"><a href="/tags/scala/">scala</a></span>
-<span style="font-size: 67%"><a href="/tags/multithreading/">multithreading</a></span>
+<span style="font-size: 67%"><a href="/tags/google/">google</a></span>
+<span style="font-size: 474%"><a href="/tags/java/">java</a></span>
+<span style="font-size: 67%"><a href="/tags/jdbc/">jdbc</a></span>
 <span style="font-size: 135%"><a href="/tags/logging/">logging</a></span>
-<span style="font-size: 67%"><a href="/tags/web/">web</a></span>
 <span style="font-size: 67%"><a href="/tags/mock/">mock</a></span>
+<span style="font-size: 67%"><a href="/tags/multithreading/">multithreading</a></span>
+<span style="font-size: 135%"><a href="/tags/pattern/">pattern</a></span>
+<span style="font-size: 67%"><a href="/tags/performance/">performance</a></span>
+<span style="font-size: 135%"><a href="/tags/reflection/">reflection</a></span>
+<span style="font-size: 67%"><a href="/tags/sbt/">sbt</a></span>
+<span style="font-size: 135%"><a href="/tags/scala/">scala</a></span>
+<span style="font-size: 67%"><a href="/tags/testing/">testing</a></span>
+<span style="font-size: 67%"><a href="/tags/web/">web</a></span>
 
 	</div>
 </div>
 
+			</div>
+			<div style="clear: both;"></div>
 		</div>
-		<div style="clear: both;"></div>
 	</div>
 
-	<div id="footer">
-		Copyright &copy; 2011 All Rights Reserved.
+	<div id="footer-wrapper">
+		<div id="footer">
+			Copyright &copy; 2011 All Rights Reserved.
+		</div>
 	</div>
 </body>
 </html>
