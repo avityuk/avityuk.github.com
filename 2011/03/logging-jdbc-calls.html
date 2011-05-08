@@ -40,7 +40,7 @@
 
 <p>Looks not very useful unless you are printing parameters passed to <code>PreparedStatement</code>. Even some of my colleagues pointed that they hate <code>PreparedStatement</code> because of it.</p>
 
-<p>Pretty straightforward solution is to intercept JDBC calls and create some simple log statement. That's what actually library is doing. I won't describe it's usage here, since I already did it on <a href="http://code.google.com/p/jdbc-logger/wiki/Usage">usage page</a>. In short the only thing you have to do is to wrap data source: <code>new LoggableDataSource(ds, new Slf4JLogger())</code>. And that's what you automatically get:</p>
+<p>Pretty straightforward solution is to intercept JDBC calls and create some simple log statement. That&rsquo;s what actually library is doing. I won&rsquo;t describe it&rsquo;s usage here, since I already did it on <a href="http://code.google.com/p/jdbc-logger/wiki/Usage">usage page</a>. In short the only thing you have to do is to wrap data source: <code>new LoggableDataSource(ds, new Slf4JLogger())</code>. And that&rsquo;s what you automatically get:</p>
 
 <pre><code>394 [main] INFO JDBC - insert into TEST (NAME, POS) VALUES(name-0, 0)
 </code></pre>

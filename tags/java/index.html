@@ -34,7 +34,7 @@
 
 	ERROR: MyClass - java.lang.NullPointerException
 
-I realized that there was something wrong in logging code, hence we are loosing stack trace. I checked code which produces this log and didn\'t find anything unusual. Then I asked my colleague to double check it may be I miss something. He reproduced the same exception on his desktop and showed me nice log statement with full stack trace. We started to feel that there is some magic behind that. Whole team started googling and finally we found the answer.
+I realized that there was something wrong in logging code, hence we are loosing stack trace. I checked code which produces this log and didn't find anything unusual. Then I asked my colleague to double check it may be I miss something. He reproduced the same exception on his desktop and showed me nice log statement with full stack trace. We started to feel that there is some magic behind that. Whole team started googling and finally we found the answer.
 
 
 		<a href="/2011/03/lost-stack-trace.html">Read More &raquo;</a>
@@ -54,7 +54,7 @@ I realized that there was something wrong in logging code, hence we are loosing 
 		<h3 class="post-title"><a href="/2011/03/java-formatters-best-practices.html" rel="bookmark">Java Formatters Best Practices</a></h3>
 		
 		Java API has set of classes for formatting and parsing dates and
-numbers. Mostly used are: `java.text.DateFormat` and `java.text.NumberFormat`. Often when interviewing candidates I ask them whether JDK date and number formatters are thread-safe. Surprisingly most of them don\'t know the right answer, hence I decided to describe common pitfalls with formatters usage.
+numbers. Mostly used are: `java.text.DateFormat` and `java.text.NumberFormat`. Often when interviewing candidates I ask them whether JDK date and number formatters are thread-safe. Surprisingly most of them don't know the right answer, hence I decided to describe common pitfalls with formatters usage.
 
 
 		<a href="/2011/03/java-formatters-best-practices.html">Read More &raquo;</a>
@@ -123,7 +123,7 @@ numbers. Mostly used are: `java.text.DateFormat` and `java.text.NumberFormat`. O
 		
 		В этот раз речь пойдет о паттернах проектирования. Если быть точнее — **Статическом фабричном методе ([Static Factory Method][1])**. Вкратце, он призван для того, чтобы инкапсулировать процесс создания объекта.  
   
-Допустим, у нас есть метод, который возвращает определенный набор (список) данных. Этот метод должен иметь возможность вернуть для каждой единицы фактический результат или ошибку. Естественно, что в таком случае исключения бросать нельзя, иначе мы не получим \"хорошие\" данные. Обычно, в таких целях используется объект-контейнер, который хранит или данные или ошибку или просто пустой.
+Допустим, у нас есть метод, который возвращает определенный набор (список) данных. Этот метод должен иметь возможность вернуть для каждой единицы фактический результат или ошибку. Естественно, что в таком случае исключения бросать нельзя, иначе мы не получим "хорошие" данные. Обычно, в таких целях используется объект-контейнер, который хранит или данные или ошибку или просто пустой.
 
 
 		<a href="/2009/03/blog-post.html">Read More &raquo;</a>
@@ -154,7 +154,7 @@ numbers. Mostly used are: `java.text.DateFormat` and `java.text.NumberFormat`. O
   
 Существующие библиотеки позволяют очень удобно разграничить вывод информации об ошибках, предупреждений, информационных сообщений и отладочной информации. Так же, позволяют настроить предпочитаемую степень логирование непосредственно перед запуском приложения.  
   
-Но, к своему удивлению, я недавно заметил, что большинство разработчиков пользуются логированием неправильно. \"Что значит неправильно?\", - удивитесь Вы.
+Но, к своему удивлению, я недавно заметил, что большинство разработчиков пользуются логированием неправильно. "Что значит неправильно?", - удивитесь Вы.
 
 
 		<a href="/2009/02/blog-post.html">Read More &raquo;</a>
@@ -179,7 +179,7 @@ numbers. Mostly used are: `java.text.DateFormat` and `java.text.NumberFormat`. O
 			<img src="http://2.bp.blogspot.com/_MzPDIAgS1ow/SYWiiNXWgDI/AAAAAAAAJr4/rMPEwUK1HsM/s320/sngleton.jpg" width="320px" height="234px" />
 		</div>
 		
-		Недавно мне в очередной раз пришлось работать с кодом, полученным в наследство. И я, как честный преверженец [TDD][1], решил предже всего написать тесты на уже существующий класс. К своему огорчению сразу же обнаружил в коде вызов следующего вида: `IdGenerator.getInstance()`. Да, это он самый, \"любимый\" нами [синглтон][2].
+		Недавно мне в очередной раз пришлось работать с кодом, полученным в наследство. И я, как честный преверженец [TDD][1], решил предже всего написать тесты на уже существующий класс. К своему огорчению сразу же обнаружил в коде вызов следующего вида: `IdGenerator.getInstance()`. Да, это он самый, "любимый" нами [синглтон][2].
 
 
 		<a href="/2008/12/blog-post.html">Read More &raquo;</a>
