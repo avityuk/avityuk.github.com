@@ -1,43 +1,74 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<?xml-stylesheet type="text/xsl" href="/sitemap.xsl"?>
+<urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">    
   <url>
-      <loc>http://avityuk.github.com/</loc>
-      <lastmod>2011-05-08</lastmod>
+    <loc>http://blog.vityuk.com/</loc>
+    <lastmod>2011-05-09T08:34:59+03:00</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>1.0</priority>
   </url>
+  
   <url>
-      <loc>http://avityuk.github.com/2011/03/lost-stack-trace</loc>
-      <lastmod>2011-03-31</lastmod>
+    <loc>http://blog.vityuk.com/2011/03/lost-stack-trace.html</loc>
+    <lastmod>2011-03-31T21:41:00+03:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
   </url>
+  
   <url>
-      <loc>http://avityuk.github.com/2011/03/java-formatters-best-practices</loc>
-      <lastmod>2011-03-26</lastmod>
+    <loc>http://blog.vityuk.com/2011/03/java-formatters-best-practices.html</loc>
+    <lastmod>2011-03-26T17:54:00+02:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
   </url>
+  
   <url>
-      <loc>http://avityuk.github.com/2011/03/java-generics-and-reflection</loc>
-      <lastmod>2011-03-22</lastmod>
+    <loc>http://blog.vityuk.com/2011/03/java-generics-and-reflection.html</loc>
+    <lastmod>2011-03-22T09:46:00+02:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
   </url>
+  
   <url>
-      <loc>http://avityuk.github.com/2011/03/logging-jdbc-calls</loc>
-      <lastmod>2011-03-07</lastmod>
+    <loc>http://blog.vityuk.com/2011/03/logging-jdbc-calls.html</loc>
+    <lastmod>2011-03-07T16:55:00+02:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
   </url>
+  
   <url>
-      <loc>http://avityuk.github.com/2010/12/how-scala-compiler-stores-meta</loc>
-      <lastmod>2010-12-05</lastmod>
+    <loc>http://blog.vityuk.com/2010/12/how-scala-compiler-stores-meta.html</loc>
+    <lastmod>2010-12-05T12:59:00+02:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
   </url>
+  
   <url>
-      <loc>http://avityuk.github.com/2010/06/running-appengine-scala</loc>
-      <lastmod>2010-06-02</lastmod>
+    <loc>http://blog.vityuk.com/2010/06/running-appengine-scala.html</loc>
+    <lastmod>2010-06-02T21:41:00+03:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
   </url>
+  
   <url>
-      <loc>http://avityuk.github.com/2009/03/blog-post</loc>
-      <lastmod>2009-03-22</lastmod>
+    <loc>http://blog.vityuk.com/2009/03/blog-post.html</loc>
+    <lastmod>2009-03-22T13:02:00+02:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
   </url>
+  
   <url>
-      <loc>http://avityuk.github.com/2009/02/blog-post</loc>
-      <lastmod>2009-02-15</lastmod>
+    <loc>http://blog.vityuk.com/2009/02/blog-post.html</loc>
+    <lastmod>2009-02-15T10:53:00+02:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
   </url>
+  
   <url>
-      <loc>http://avityuk.github.com/2008/12/blog-post</loc>
-      <lastmod>2008-12-17</lastmod>
+    <loc>http://blog.vityuk.com/2008/12/blog-post.html</loc>
+    <lastmod>2008-12-17T07:14:00+02:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
   </url>
+  
 </urlset>
