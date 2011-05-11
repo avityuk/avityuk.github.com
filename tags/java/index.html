@@ -18,7 +18,7 @@
  var _gaq = _gaq || [];
  _gaq.push(['_setAccount', 'UA-7697564-2']);
  _gaq.push(['_trackPageview']);
- _gaq.push([‘_trackPageLoadTime’]);
+ _gaq.push(['_trackPageLoadTime']);
 
  (function() {
    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
@@ -52,7 +52,7 @@
 <pre><code>ERROR: MyClass - java.lang.NullPointerException
 </code></pre>
 
-<p>I realized that there was something wrong in logging code, hence we are loosing stack trace. I checked code which produces this log and didn&rsquo;t find anything unusual. Then I asked my colleague to double check it may be I miss something. He reproduced the same exception on his desktop and showed me nice log statement with full stack trace. We started to feel that there is some magic behind that. Whole team started googling and finally we found the answer.</p>
+<p>I realized that there was something wrong in logging code, hence we are loosing stack trace. I checked code which produces this log and didn’t find anything unusual. Then I asked my colleague to double check it may be I miss something. He reproduced the same exception on his desktop and showed me nice log statement with full stack trace. We started to feel that there is some magic behind that. Whole team started googling and finally we found the answer.</p>
 
 
 		
@@ -78,7 +78,7 @@
 
 		
 			<p>Java API has set of classes for formatting and parsing dates and
-numbers. Mostly used are: <code>java.text.DateFormat</code> and <code>java.text.NumberFormat</code>. Often when interviewing candidates I ask them whether JDK date and number formatters are thread-safe. Surprisingly most of them don&rsquo;t know the right answer, hence I decided to describe common pitfalls with formatters usage.</p>
+numbers. Mostly used are: <code>java.text.DateFormat</code> and <code>java.text.NumberFormat</code>. Often when interviewing candidates I ask them whether JDK date and number formatters are thread-safe. Surprisingly most of them don’t know the right answer, hence I decided to describe common pitfalls with formatters usage.</p>
 
 
 		
@@ -105,7 +105,7 @@ numbers. Mostly used are: <code>java.text.DateFormat</code> and <code>java.text.
 		
 
 		
-			<p>&ldquo;Officially&rdquo; Java does not have information about generic types in runtime. But it&rsquo;s not absolutely true. There are some cases, which are utilized by smart frameworks like Spring and Google Guice. Let&rsquo;s explore these cases!</p>
+			<p>“Officially” Java does not have information about generic types in runtime. But it’s not absolutely true. There are some cases, which are utilized by smart frameworks like Spring and Google Guice. Let’s explore these cases!</p>
 
 
 		
@@ -165,7 +165,7 @@ numbers. Mostly used are: <code>java.text.DateFormat</code> and <code>java.text.
 		
 			<p>В этот раз речь пойдет о паттернах проектирования. Если быть точнее — <strong>Статическом фабричном методе (<a href="http://en.wikipedia.org/wiki/Factory_method_pattern#Encapsulation">Static Factory Method</a>)</strong>. Вкратце, он призван для того, чтобы инкапсулировать процесс создания объекта.  </p>
 
-<p>Допустим, у нас есть метод, который возвращает определенный набор (список) данных. Этот метод должен иметь возможность вернуть для каждой единицы фактический результат или ошибку. Естественно, что в таком случае исключения бросать нельзя, иначе мы не получим &ldquo;хорошие&rdquo; данные. Обычно, в таких целях используется объект-контейнер, который хранит или данные или ошибку или просто пустой.</p>
+<p>Допустим, у нас есть метод, который возвращает определенный набор (список) данных. Этот метод должен иметь возможность вернуть для каждой единицы фактический результат или ошибку. Естественно, что в таком случае исключения бросать нельзя, иначе мы не получим “хорошие” данные. Обычно, в таких целях используется объект-контейнер, который хранит или данные или ошибку или просто пустой.</p>
 
 
 		
@@ -202,7 +202,7 @@ numbers. Mostly used are: <code>java.text.DateFormat</code> and <code>java.text.
 
 <p>Существующие библиотеки позволяют очень удобно разграничить вывод информации об ошибках, предупреждений, информационных сообщений и отладочной информации. Так же, позволяют настроить предпочитаемую степень логирование непосредственно перед запуском приложения.  </p>
 
-<p>Но, к своему удивлению, я недавно заметил, что большинство разработчиков пользуются логированием неправильно. &ldquo;Что значит неправильно?&rdquo;, - удивитесь Вы.</p>
+<p>Но, к своему удивлению, я недавно заметил, что большинство разработчиков пользуются логированием неправильно. “Что значит неправильно?”, - удивитесь Вы.</p>
 
 
 		
@@ -233,7 +233,7 @@ numbers. Mostly used are: <code>java.text.DateFormat</code> and <code>java.text.
 		
 
 		
-			<p>Недавно мне в очередной раз пришлось работать с кодом, полученным в наследство. И я, как честный преверженец <a href="http://en.wikipedia.org/wiki/Test-driven_development">TDD</a>, решил предже всего написать тесты на уже существующий класс. К своему огорчению сразу же обнаружил в коде вызов следующего вида: <code>IdGenerator.getInstance()</code>. Да, это он самый, &ldquo;любимый&rdquo; нами <a href="http://ru.wikipedia.org/wiki/%D0%9E%D0%B4%D0%B8%D0%BD%D0%BE%D1%87%D0%BA%D0%B0_%28%D1%88%D0%B0%D0%B1%D0%BB%D0%BE%D0%BD_%D0%BF%D1%80%D0%BE%D0%B5%D0%BA%D1%82%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D1%8F%29">синглтон</a>.</p>
+			<p>Недавно мне в очередной раз пришлось работать с кодом, полученным в наследство. И я, как честный преверженец <a href="http://en.wikipedia.org/wiki/Test-driven_development">TDD</a>, решил предже всего написать тесты на уже существующий класс. К своему огорчению сразу же обнаружил в коде вызов следующего вида: <code>IdGenerator.getInstance()</code>. Да, это он самый, “любимый” нами <a href="http://ru.wikipedia.org/wiki/%D0%9E%D0%B4%D0%B8%D0%BD%D0%BE%D1%87%D0%BA%D0%B0_%28%D1%88%D0%B0%D0%B1%D0%BB%D0%BE%D0%BD_%D0%BF%D1%80%D0%BE%D0%B5%D0%BA%D1%82%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D1%8F%29">синглтон</a>.</p>
 
 
 		
