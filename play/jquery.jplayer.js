@@ -227,18 +227,6 @@
 			errorAlerts: false,
 			warningAlerts: false
 		},
-		optionsAudio: {
-			size: {
-				width: "0px",
-				height: "0px",
-				cssClass: ""
-			},
-			sizeFull: {
-				width: "0px",
-				height: "0px",
-				cssClass: ""
-			}
-		},
 		instances: {}, // Static Object
 		status: { // Instanced in _init()
 			src: "",
@@ -661,71 +649,7 @@
 					}
 				}
 			}
-			if(this.flash.gate) {
-				switch(eventType) {
-					case $.jPlayer.event.progress:
-						this._getFlashStatus(status);
-						this._trigger(eventType);
-						break;
-					case $.jPlayer.event.timeupdate:
-						this._getFlashStatus(status);
-						this._trigger(eventType);
-						break;
-					case $.jPlayer.event.play:
-						this._seeked();
-						this._trigger(eventType);
-						break;
-					case $.jPlayer.event.pause:
-						this._trigger(eventType);
-						break;
-					case $.jPlayer.event.ended:
-						this._trigger(eventType);
-						break;
-					case $.jPlayer.event.error:
-						this.status.waitForLoad = true; // Allows the load operation to try again.
-						this.status.waitForPlay = true; // Reset since a play was captured.
-						this._flash_setAudio(this.status.media);
-						this._error( {
-							type: $.jPlayer.error.URL,
-							context:status.src,
-							message: $.jPlayer.errorMsg.URL,
-							hint: $.jPlayer.errorHint.URL
-						});
-						break;
-					case $.jPlayer.event.seeking:
-						this._seeking();
-						this._trigger(eventType);
-						break;
-					case $.jPlayer.event.seeked:
-						this._seeked();
-						this._trigger(eventType);
-						break;
-					case $.jPlayer.event.ready:
-						// The ready event is handled outside the switch statement.
-						// Captured here otherwise 2 ready events would be generated if the ready event handler used setMedia.
-						break;
-					default:
-						this._trigger(eventType);
-				}
-			}
 			return false;
-		},
-		_getFlashStatus: function(status) {
-			this.status.seekPercent = status.seekPercent;
-			this.status.currentPercentRelative = status.currentPercentRelative;
-			this.status.currentPercentAbsolute = status.currentPercentAbsolute;
-			this.status.currentTime = status.currentTime;
-			this.status.duration = status.duration;
-
-			// The Flash does not generate this information in this release
-			this.status.readyState = 4; // status.readyState;
-			this.status.networkState = 0; // status.networkState;
-			this.status.playbackRate = 1; // status.playbackRate;
-			this.status.ended = false; // status.ended;
-		},
-		_seeking: function() {
-		},
-		_seeked: function() {
 		},
 		setMedia: function(media) {
 		
@@ -734,7 +658,6 @@
 			
 			var self = this;
 			
-			this._seeked();
 			clearTimeout(this.internal.htmlDlyCmdId); // Clears any delayed commands used in the HTML solution.
 
 			// Store the current html gates, since we need for clearMedia() conditions.
@@ -813,8 +736,6 @@
 			}
 		},
 		clearMedia: function() {
-			this._resetStatus();
-
 
 			clearTimeout(this.internal.htmlDlyCmdId);
 
@@ -1367,7 +1288,7 @@
 		FLASH: "Check your swfPath option and that Jplayer.swf is there.",
 		FLASH_DISABLED: "Check that you have not display:none; the jPlayer entity or any ancestor.",
 		NO_SOLUTION: "Review the jPlayer options: support and supplied.",
-		NO_SUPPORT: "Video or audio formats defined in the supplied option are missing.",
+		NO_SUPPORT: "Audio formats defined in the supplied option are missing.",
 		URL: "Check media URL is valid.",
 		URL_NOT_SET: "Use setMedia() to set the media URL.",
 		VERSION: "Update jPlayer files."
