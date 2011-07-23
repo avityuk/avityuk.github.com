@@ -11,12 +11,13 @@
         <script type="text/javascript">
             $(document).ready(function(){
                 $("#jquery_jplayer").jPlayer({
-                    supplied: "mp3"
+                    supplied: "mp3, ogg"
                 });
                 
                 $("#play").click( function() {
                     $("#jquery_jplayer").jPlayer("setMedia", {
-                        mp3: "hello.mp3"
+                        mp3: "hello.mp3",
+			ogg: "hello.ogg"
                     }).jPlayer("play");
                 });
             });
