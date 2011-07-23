@@ -887,6 +887,18 @@
 				this._flash_checkWaitForPlay();
 			}
 		},
+                _flash_checkWaitForPlay: function() {
+                        if(this.status.waitForPlay) {
+                                this.status.waitForPlay = false;
+                                if(this.css.jq.videoPlay.length) {
+                                        this.css.jq.videoPlay.hide();
+                                }
+                                if(this.status.video) {
+                                        this.internal.poster.jq.hide();
+                                        this.internal.flash.jq.css({'width': this.status.width, 'height': this.status.height});
+                                }
+                        }
+                },
 		_getMovie: function() {
 			return document[this.internal.flash.id];
 		},
