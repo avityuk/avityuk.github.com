@@ -26,14 +26,13 @@
                 
                 $("#play").click( function() {
                     $("#jquery_jplayer").jPlayer("setMedia", {
-                        mp3: "http://translate.google.com/translate_tts?q=" + $("#text").val()
+                        mp3: "hello.mp3"
                     }).jPlayer("play");
                 });
             });
             </script>
         <div id="jquery_jplayer"></div>
         <form>
-            <input id="text" type="text" value="hello">
             <a id="play" href="#" onclick="return false;">Play</a>
         </form>
     </body>
