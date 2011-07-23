@@ -90,8 +90,6 @@
 	$.jPlayer.event = {
 		ready: "jPlayer_ready",
 		flashreset: "jPlayer_flashreset", // Similar to the ready event if the Flash solution is set to display:none and then shown again or if it's reloaded for another reason by the browser. For example, using CSS position:fixed on Firefox for the full screen feature.
-		resize: "jPlayer_resize", // Occurs when the size changes through a full/restore screen operation or if the size/sizeFull options are changed.
-		repeat: "jPlayer_repeat", // Occurs when the repeat status changes. Usually through clicks on the repeat button of the interface.
 		error: "jPlayer_error", // Event error code in event.jPlayer.error.type. See $.jPlayer.error
 		warning: "jPlayer_warning", // Event warning code in event.jPlayer.warning.type. See $.jPlayer.warning
 
@@ -227,21 +225,9 @@
 			waitForPlay: true, // Same as waitForLoad except in case where preloading.
 			waitForLoad: true,
 			srcSet: false,
-			seekPercent: 0,
-			currentPercentRelative: 0,
-			currentPercentAbsolute: 0,
-			currentTime: 0,
-			duration: 0,
 			readyState: 0,
 			networkState: 0,
-			playbackRate: 1,
-			ended: 0
-
-/*		Persistant status properties created dynamically at _init():
-			width
-			height
-			cssClass
-*/
+			playbackRate: 1
 		},
 
 		internal: { // Instanced in _init()
@@ -778,150 +764,6 @@
 				}
 			});
 		},
-		stop: function() {
-			if(this.status.srcSet) {
-				if(this.html.active) {
-					this._html_pause(0);
-				} else if(this.flash.active) {
-					this._flash_pause(0);
-				}
-			} else {
-				this._urlNotSetError("stop");
-			}
-		},
-		playHead: function(p) {
-			p = this._limitValue(p, 0, 100);
-			if(this.status.srcSet) {
-				if(this.html.active) {
-					this._html_playHead(p);
-				} else if(this.flash.active) {
-					this._flash_playHead(p);
-				}
-			} else {
-				this._urlNotSetError("playHead");
-			}
-		},
-		_muted: function(muted) {
-			this.options.muted = muted;
-			if(this.html.used) {
-				this._html_mute(muted);
-			}
-			if(this.flash.used) {
-				this._flash_mute(muted);
-			}
-		},
-		mute: function(mute) { // mute is either: undefined (true), an event object (true) or a boolean (muted).
-			mute = mute === undefined ? true : !!mute;
-			this._muted(mute);
-		},
-		_updateMute: function(mute) {
-			if(mute === undefined) {
-				mute = this.options.muted;
-			}
-		},
-		_updateVolume: function(v) {
-			if(v === undefined) {
-				v = this.options.volume;
-			}
-			v = this.options.muted ? 0 : v;
-		},
-
-		// Options code adapted from ui.widget.js (1.8.7).  Made changes so the key can use dot notation. To match previous getData solution in jPlayer 1.
-		option: function(key, value) {
-			var options = key;
-
-			 // Enables use: options().  Returns a copy of options object
-			if ( arguments.length === 0 ) {
-				return $.extend( true, {}, this.options );
-			}
-
-			if(typeof key === "string") {
-				var keys = key.split(".");
-
-				 // Enables use: options("someOption")  Returns a copy of the option. Supports dot notation.
-				if(value === undefined) {
-
-					var opt = $.extend(true, {}, this.options);
-					for(var i = 0; i < keys.length; i++) {
-						if(opt[keys[i]] !== undefined) {
-							opt = opt[keys[i]];
-						} else {
-							this._warning( {
-								type: $.jPlayer.warning.OPTION_KEY,
-								context: key,
-								message: $.jPlayer.warningMsg.OPTION_KEY,
-								hint: $.jPlayer.warningHint.OPTION_KEY
-							});
-							return undefined;
-						}
-					}
-					return opt;
-				}
-
-				 // Enables use: options("someOptionObject", someObject}).  Creates: {someOptionObject:someObject}
-				 // Enables use: options("someOption", someValue).  Creates: {someOption:someValue}
-				 // Enables use: options("someOptionObject.someOption", someValue).  Creates: {someOptionObject:{someOption:someValue}}
-
-				options = {};
-				var opts = options;
-
-				for(var j = 0; j < keys.length; j++) {
-					if(j < keys.length - 1) {
-						opts[keys[j]] = {};
-						opts = opts[keys[j]];
-					} else {
-						opts[keys[j]] = value;
-					}
-				}
-			}
-
-			 // Otherwise enables use: options(optionObject).  Uses original object (the key)
-
-			this._setOptions(options);
-
-			return this;
-		},
-		_setOptions: function(options) {
-			var self = this;
-			$.each(options, function(key, value) { // This supports the 2 level depth that the options of jPlayer has. Would review if we ever need more depth.
-				self._setOption(key, value);
-			});
-
-			return this;
-		},
-		_setOption: function(key, value) {
-			var self = this;
-
-			// The ability to set options is limited at this time.
-
-			switch(key) {
-				case "volume" :
-					this.volume(value);
-					break;
-				case "muted" :
-					this._muted(value);
-					break;
-				case "fullScreen" :
-					if(this.options[key] !== value) { // if changed
-						this._removeUiClass();
-						this.options[key] = value;
-						this._refreshSize();
-					}
-				case "emulateHtml" :
-					if(this.options[key] !== value) { // To avoid multiple event handlers being created, if true already.
-						this.options[key] = value;
-						if(value) {
-							this._emulateHtmlBridge();
-						} else {
-							this._destroyHtmlBridge();
-						}
-					}
-					break;
-			}
-
-			return this;
-		},
-		// End of: (Options code adapted from ui.widget.js)
 
 		_html_initMedia: function() {
 			if(this.status.srcSet  && !this.status.waitForPlay) {
@@ -1001,40 +843,9 @@
 				this._html_checkWaitForPlay();
 			}
 		},
-		_html_playHead: function(percent) {
-			var self = this;
-			this._html_load(); // Loads if required and clears any delayed commands.
-			try {
-				if((typeof this.htmlElement.media.seekable === "object") && (this.htmlElement.media.seekable.length > 0)) {
-					this.htmlElement.media.currentTime = percent * this.htmlElement.media.seekable.end(this.htmlElement.media.seekable.length-1) / 100;
-				} else if(this.htmlElement.media.duration > 0 && !isNaN(this.htmlElement.media.duration)) {
-					this.htmlElement.media.currentTime = percent * this.htmlElement.media.duration / 100;
-				} else {
-					throw "e";
-				}
-			} catch(err) {
-				this.internal.htmlDlyCmdId = setTimeout(function() {
-					self.playHead(percent);
-				}, 100);
-				return; // Cancel execution and wait for the delayed command.
-			}
-			if(!this.status.waitForLoad) {
-				this._html_checkWaitForPlay();
-			}
-		},
 		_html_checkWaitForPlay: function() {
 			if(this.status.waitForPlay) {
 				this.status.waitForPlay = false;
-			}
-		},
-		_html_volume: function(v) {
-			if(this.html.audio.available) {
-				this.htmlElement.audio.volume = v;
-			}
-		},
-		_html_mute: function(m) {
-			if(this.html.audio.available) {
-				this.htmlElement.audio.muted = m;
 			}
 		},
 		_flash_setAudio: function(media) {
@@ -1092,29 +903,6 @@
 				this.status.waitForLoad = false;
 				this._flash_checkWaitForPlay();
 			}
-		},
-		_flash_playHead: function(p) {
-			try {
-				this._getMovie().fl_play_head(p);
-			} catch(err) { this._flashError(err); }
-			if(!this.status.waitForLoad) {
-				this._flash_checkWaitForPlay();
-			}
-		},
-		_flash_checkWaitForPlay: function() {
-			if(this.status.waitForPlay) {
-				this.status.waitForPlay = false;
-			}
-		},
-		_flash_volume: function(v) {
-			try {
-				this._getMovie().fl_volume(v);
-			} catch(err) { this._flashError(err); }
-		},
-		_flash_mute: function(m) {
-			try {
-				this._getMovie().fl_mute(m);
-			} catch(err) { this._flashError(err); }
 		},
 		_getMovie: function() {
 			return document[this.internal.flash.id];
