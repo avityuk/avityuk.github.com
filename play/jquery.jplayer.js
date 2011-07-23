@@ -152,29 +152,6 @@
 		});
 	};
 	
-	$.jPlayer.timeFormat = {
-		showHour: false,
-		showMin: true,
-		showSec: true,
-		padHour: false,
-		padMin: true,
-		padSec: true,
-		sepHour: ":",
-		sepMin: ":",
-		sepSec: ""
-	};
-
-	$.jPlayer.convertTime = function(s) {
-		var myTime = new Date(s * 1000);
-		var hour = myTime.getUTCHours();
-		var min = myTime.getUTCMinutes();
-		var sec = myTime.getUTCSeconds();
-		var strHour = ($.jPlayer.timeFormat.padHour && hour < 10) ? "0" + hour : hour;
-		var strMin = ($.jPlayer.timeFormat.padMin && min < 10) ? "0" + min : min;
-		var strSec = ($.jPlayer.timeFormat.padSec && sec < 10) ? "0" + sec : sec;
-		return (($.jPlayer.timeFormat.showHour) ? strHour + $.jPlayer.timeFormat.sepHour : "") + (($.jPlayer.timeFormat.showMin) ? strMin + $.jPlayer.timeFormat.sepMin : "") + (($.jPlayer.timeFormat.showSec) ? strSec + $.jPlayer.timeFormat.sepSec : "");
-	};
-
 	// Adapting jQuery 1.4.4 code for jQuery.browser. Required since jQuery 1.3.2 does not detect Chrome as webkit.
 	$.jPlayer.uaBrowser = function( userAgent ) {
 		var ua = userAgent.toLowerCase();
@@ -242,27 +219,6 @@
 			supplied: "mp3", // Defines which formats jPlayer will try and support and the priority by the order. 1st is highest,
 			preload: 'metadata',  // HTML5 Spec values: none, metadata, auto.
 			volume: 0.8, // The volume. Number 0 to 1.
-			muted: false,
-			wmode: "opaque", // Valid wmode: window, transparent, opaque, direct, gpu. 
-			backgroundColor: "#000000", // To define the jPlayer div and Flash background color.
-			fullScreen: false,
-			autohide: {
-				restored: false, // Controls the interface autohide feature.
-				full: true, // Controls the interface autohide feature.
-				fadeIn: 200, // Milliseconds. The period of the fadeIn anim.
-				fadeOut: 600, // Milliseconds. The period of the fadeOut anim.
-				hold: 1000 // Milliseconds. The period of the pause before autohide beings.
-			},
-			loop: false,
-			repeat: function(event) { // The default jPlayer repeat event handler
-				if(event.jPlayer.options.loop) {
-					$(this).unbind(".jPlayerRepeat").bind($.jPlayer.event.ended + ".jPlayer.jPlayerRepeat", function() {
-						$(this).jPlayer("play");
-					});
-				} else {
-					$(this).unbind(".jPlayerRepeat");
-				}
-			},
 			// globalVolume: false, // Not implemented: Set to make volume changes affect all jPlayer instances
 			// globalMute: false, // Not implemented: Set to make mute changes affect all jPlayer instances
 			idPrefix: "jp", // Prefix for the ids of html elements created by jPlayer. For flash, this must not include characters: . - + * / \
@@ -361,8 +317,6 @@
 
 			this.formats = []; // Array based on supplied string option. Order defines priority.
 			this.solutions = []; // Array based on solution string option. Order defines priority.
-			this.require = {}; // Which media types are required: video, audio.
-			
 			this.htmlElement = {}; // DOM elements created by jPlayer
 			this.html = {}; // In _init()'s this.desired code and setmedia(): Accessed via this[solution], where solution from this.solutions array.
 			this.html.audio = {};
@@ -431,10 +385,6 @@
 				jq: undefined,
 				swf: this.options.swfPath + ((this.options.swfPath !== "" && this.options.swfPath.slice(-1) !== "/") ? "/" : "") + "Jplayer.swf"
 			});
-			this.internal.poster = $.extend({}, {
-				id: this.options.idPrefix + "_poster_" + this.count,
-				jq: undefined
-			});
 
 			// Register listeners defined in the constructor
 			$.each($.jPlayer.event, function(eventName,eventType) {
@@ -444,26 +394,11 @@
 				}
 			});
 
-			this.require.audio = true;
-
 			this.options = $.extend(true, {},
 				this.optionsAudio,
 				this.options
 			);
 
-			// Create the poster image.
-			this.htmlElement.poster = document.createElement('img');
-			this.htmlElement.poster.id = this.internal.poster.id;
-			this.htmlElement.poster.onload = function() { // Note that this did not work on Firefox 3.6: poster.addEventListener("onload", function() {}, false); Did not investigate x-browser.
-				if(self.status.waitForPlay) {
-					self.internal.poster.jq.show();
-				}
-			};
-			this.element.append(this.htmlElement.poster);
-			this.internal.poster.jq = $("#" + this.internal.poster.id);
-			this.internal.poster.jq.css({'width': this.status.width, 'height': this.status.height});
-			this.internal.poster.jq.hide();
-			
 			// Generate the required media elements
 			this.html.audio.available = false;
 			this.htmlElement.audio = document.createElement('audio');
@@ -490,7 +425,7 @@
 							audioCanPlay = true;
 						}
 					});
-					self[solution].desired = self.require.audio && !audioCanPlay;
+					self[solution].desired = !audioCanPlay;
 				}
 			});
 			// This is what jPlayer will support, based on solution and supplied.
@@ -544,8 +479,7 @@
 						'<param name="movie" value="' + this.internal.flash.swf + '" />',
 						'<param name="FlashVars" value="' + flashVars + '" />',
 						'<param name="allowScriptAccess" value="always" />',
-						'<param name="bgcolor" value="' + this.options.backgroundColor + '" />',
-						'<param name="wmode" value="' + this.options.wmode + '" />'
+						'<param name="wmode" value="opaque" />'
 					];
 
 					htmlObj = document.createElement(objStr);
@@ -568,8 +502,7 @@
 					htmlObj.setAttribute("height", "1"); // Non-zero
 					createParam(htmlObj, "flashvars", flashVars);
 					createParam(htmlObj, "allowscriptaccess", "always");
-					createParam(htmlObj, "bgcolor", this.options.backgroundColor);
-					createParam(htmlObj, "wmode", this.options.wmode);
+					createParam(htmlObj, "wmode", "opaque");
 				}
 
 				this.element.append(htmlObj);
@@ -647,9 +580,6 @@
 						clearTimeout(self.internal.htmlDlyCmdId); // Clears any delayed commands used in the HTML solution.
 						self.status.waitForLoad = true; // Allows the load operation to try again.
 						self.status.waitForPlay = true; // Reset since a play was captured.
-						if(self._validString(self.status.media.poster)) {
-							self.internal.poster.jq.show();
-						}
 						self._error( {
 							type: $.jPlayer.error.URL,
 							context: self.status.src, // this.src shows absolute urls. Want context to show the url given.
@@ -754,9 +684,6 @@
 					case $.jPlayer.event.error:
 						this.status.waitForLoad = true; // Allows the load operation to try again.
 						this.status.waitForPlay = true; // Reset since a play was captured.
-						if(this._validString(this.status.media.poster)) {
-							this.internal.poster.jq.show();
-						}
 						this._flash_setAudio(this.status.media);
 						this._error( {
 							type: $.jPlayer.error.URL,
@@ -803,10 +730,6 @@
 		setMedia: function(media) {
 		
 			/*	media[format] = String: URL of format. Must contain all of the supplied option's video or audio formats.
-			 *	media.poster = String: Video poster URL.
-			 *	media.subtitles = String: * NOT IMPLEMENTED * URL of subtitles SRT file
-			 *	media.chapters = String: * NOT IMPLEMENTED * URL of chapters SRT file
-			 *	media.stream = Boolean: * NOT IMPLEMENTED * Designating actual media streams. ie., "false/undefined" for files. Plan to refresh the flash every so often.
 			 */
 			
 			var self = this;
@@ -862,16 +785,6 @@
 			});
 
 			if(supported) {
-				// Set poster after the possible clearMedia() command above. IE had issues since the IMG onload event occurred immediately when cached. ie., The clearMedia() hide the poster.
-				if(this._validString(media.poster)) {
-					if(this.htmlElement.poster.src !== media.poster) { // Since some browsers do not generate img onload event.
-						this.htmlElement.poster.src = media.poster;
-					} else {
-						this.internal.poster.jq.show();
-					}
-				} else {
-					this.internal.poster.jq.hide(); // Hide if not used, since clearMedia() does not always occur above. ie., HTML audio <-> video switching.
-				}
 				this.status.srcSet = true;
 				this.status.media = $.extend({}, media);
 			} else { // jPlayer cannot support any formats provided in this browser
@@ -887,7 +800,6 @@
 				// Reset status and interface.
 				this._resetStatus();
 				// Hide the any old media
-				this.internal.poster.jq.hide();
 				if(this.flash.used) {
 					this.internal.flash.jq.css({'width':'0px', 'height':'0px'});
 				}
@@ -903,7 +815,6 @@
 		clearMedia: function() {
 			this._resetStatus();
 
-			this.internal.poster.jq.hide();
 
 			clearTimeout(this.internal.htmlDlyCmdId);
 
