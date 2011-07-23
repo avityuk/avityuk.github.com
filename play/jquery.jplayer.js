@@ -490,7 +490,6 @@
 
 			// Reset the interface, remove seeking effect and times.
 			this._resetStatus();
-			this._seeked();
 
 			if(this.status.srcSet) { // Or you get a bogus error event
 				this.pause(); // Pauses the media and clears any delayed commands used in the HTML solution.
@@ -521,7 +520,6 @@
 
 			mediaElement.addEventListener("error", function() {
 				if(entity.gate && !self.status.waitForLoad) {
-					self._seeked();
 					if(self.status.srcSet) { // Deals with case of clearMedia() causing an error event.
 						clearTimeout(self.internal.htmlDlyCmdId); // Clears any delayed commands used in the HTML solution.
 						self.status.waitForLoad = true; // Allows the load operation to try again.
