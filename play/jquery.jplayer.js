@@ -97,8 +97,6 @@
 
 		// Other events match HTML5 spec.
 		loadstart: "jPlayer_loadstart",
-		progress: "jPlayer_progress",
-		suspend: "jPlayer_suspend",
 		abort: "jPlayer_abort",
 		emptied: "jPlayer_emptied",
 		stalled: "jPlayer_stalled",
@@ -107,16 +105,8 @@
 		loadedmetadata: "jPlayer_loadedmetadata",
 		loadeddata: "jPlayer_loadeddata",
 		waiting: "jPlayer_waiting",
-		playing: "jPlayer_playing",
 		canplay: "jPlayer_canplay",
-		canplaythrough: "jPlayer_canplaythrough",
-		seeking: "jPlayer_seeking",
-		seeked: "jPlayer_seeked",
-		timeupdate: "jPlayer_timeupdate",
-		ended: "jPlayer_ended",
-		ratechange: "jPlayer_ratechange",
-		durationchange: "jPlayer_durationchange",
-		volumechange: "jPlayer_volumechange"
+		canplaythrough: "jPlayer_canplaythrough"
 	};
 
 	$.jPlayer.htmlEvent = [ // These HTML events are bubbled through to the jPlayer event, without any internal action.
@@ -517,7 +507,6 @@
 				setTimeout( function() {
 					self.internal.ready = true;
 					self.version.flash = "n/a";
-					self._trigger($.jPlayer.event.repeat); // Trigger the repeat event so its handler can initialize itself with the loop option.
 					self._trigger($.jPlayer.event.ready);
 				}, 100);
 			}
@@ -620,7 +609,6 @@
 							hint: $.jPlayer.errorHint.VERSION
 						});
 					}
-					this._trigger($.jPlayer.event.repeat); // Trigger the repeat event so its handler can initialize itself with the loop option.
 					this._trigger(eventType);
 				} else {
 					// This condition occurs if the Flash is hidden and then shown again.
@@ -821,11 +809,6 @@
 			if(this.flash.used) {
 				this._flash_mute(muted);
 			}
-
-			// The HTML solution generates this event from the media element itself.
-			if(this.flash.gate) {
-				this._trigger($.jPlayer.event.volumechange);
-			}
 		},
 		mute: function(mute) { // mute is either: undefined (true), an event object (true) or a boolean (muted).
 			mute = mute === undefined ? true : !!mute;
@@ -947,7 +930,6 @@
 			if(this.options.preload !== 'none') {
 				this._html_load();
 			}
-			this._trigger($.jPlayer.event.timeupdate); // The flash generates this event for its solution.
 		},
 		_html_setAudio: function(media) {
 			var self = this;
