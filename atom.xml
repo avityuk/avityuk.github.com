@@ -3,7 +3,7 @@
     <title type="text" xml:lang="en">Andrey Vityuk's Dev Blog</title>
     <link type="application/atom+xml" href="http://blog.vityuk.com/atom.xml" rel="self"/>
     <link type="text/html" href="http://blog.vityuk.com/" rel="alternate"/>
-    <updated>2011-05-11T06:59:15+03:00</updated>
+    <updated>2011-10-08T18:38:01-05:00</updated>
     <id>http://blog.vityuk.com</id>
     <author>
         <name>Andrey Vityuk</name>
@@ -13,7 +13,7 @@
     <entry>
         <title type="text">Lost Stack Trace</title>
         <link href="http://blog.vityuk.com/2011/03/lost-stack-trace.html"/>
-        <updated>2011-03-31T21:41:00+03:00</updated>
+        <updated>2011-03-31T13:41:00-05:00</updated>
         <id>http://blog.vityuk.com/2011/03/lost-stack-trace</id>
         <summary type="html">&lt;p&gt;Last week our team faced another &lt;code&gt;NullPointerException&lt;/code&gt; in our	development environment. As usual I started investigate log files to get full stack trace and find out reason of exception. Surprisingly, but the message I saw in log file was like:&lt;/p&gt;
 
@@ -28,7 +28,7 @@
     <entry>
         <title type="text">Java Formatters Best Practices</title>
         <link href="http://blog.vityuk.com/2011/03/java-formatters-best-practices.html"/>
-        <updated>2011-03-26T17:54:00+02:00</updated>
+        <updated>2011-03-26T10:54:00-05:00</updated>
         <id>http://blog.vityuk.com/2011/03/java-formatters-best-practices</id>
         <summary type="html">&lt;p&gt;Java API has set of classes for formatting and parsing dates and
 numbers. Mostly used are: &lt;code&gt;java.text.DateFormat&lt;/code&gt; and &lt;code&gt;java.text.NumberFormat&lt;/code&gt;. Often when interviewing candidates I ask them whether JDK date and number formatters are thread-safe. Surprisingly most of them don’t know the right answer, hence I decided to describe common pitfalls with formatters usage.&lt;/p&gt;
@@ -39,7 +39,7 @@ numbers. Mostly used are: &lt;code&gt;java.text.DateFormat&lt;/code&gt; and &lt;
     <entry>
         <title type="text">Java Generics and Reflection</title>
         <link href="http://blog.vityuk.com/2011/03/java-generics-and-reflection.html"/>
-        <updated>2011-03-22T09:46:00+02:00</updated>
+        <updated>2011-03-22T02:46:00-05:00</updated>
         <id>http://blog.vityuk.com/2011/03/java-generics-and-reflection</id>
         <summary type="html">&lt;p&gt;“Officially” Java does not have information about generic types in runtime. But it’s not absolutely true. There are some cases, which are utilized by smart frameworks like Spring and Google Guice. Let’s explore these cases!&lt;/p&gt;
 
@@ -49,7 +49,7 @@ numbers. Mostly used are: &lt;code&gt;java.text.DateFormat&lt;/code&gt; and &lt;
     <entry>
         <title type="text">Logging JDBC calls</title>
         <link href="http://blog.vityuk.com/2011/03/logging-jdbc-calls.html"/>
-        <updated>2011-03-07T16:55:00+02:00</updated>
+        <updated>2011-03-07T08:55:00-06:00</updated>
         <id>http://blog.vityuk.com/2011/03/logging-jdbc-calls</id>
         <summary type="html">&lt;p&gt;Today I found some my drafts of JDBC logger library. And finally decided to upload it on &lt;a href=&quot;http://code.google.com/p/jdbc-logger/&quot;&gt;Google code&lt;/a&gt;. The main idea of the library is to transparently intercept JDBC calls and log queries (even for PreparedStatement).&lt;/p&gt;
 
@@ -59,7 +59,7 @@ numbers. Mostly used are: &lt;code&gt;java.text.DateFormat&lt;/code&gt; and &lt;
     <entry>
         <title type="text">How Scala compiler stores meta information</title>
         <link href="http://blog.vityuk.com/2010/12/how-scala-compiler-stores-meta.html"/>
-        <updated>2010-12-05T12:59:00+02:00</updated>
+        <updated>2010-12-05T04:59:00-06:00</updated>
         <id>http://blog.vityuk.com/2010/12/how-scala-compiler-stores-meta</id>
         <summary type="html">&lt;p&gt;I was always wondering how Scala compiler fits into Java class file with all it’s comprehensive language constructions. I felt there was some magic… Later in Scala 2.8 I faced a problem with calling method with default parameters using reflection. From a quick glance it seemed that there nothing complex. But wait, Scala allows methods overloading and how do you know which method has default parameters?&lt;/p&gt;
 
@@ -69,7 +69,7 @@ numbers. Mostly used are: &lt;code&gt;java.text.DateFormat&lt;/code&gt; and &lt;
     <entry>
         <title type="text">Getting started with AppEngine + Scala</title>
         <link href="http://blog.vityuk.com/2010/06/running-appengine-scala.html"/>
-        <updated>2010-06-02T21:41:00+03:00</updated>
+        <updated>2010-06-02T13:41:00-05:00</updated>
         <id>http://blog.vityuk.com/2010/06/running-appengine-scala</id>
         <summary type="html">&lt;p&gt;This time, after long time-out I decided to continue blogging in english. Sorry for my english in advance, but I will try to do my best ;-)I spent some time playing with &lt;a href=&quot;http://code.google.com/appengine/&quot;&gt;Google App Engine&lt;/a&gt; and &lt;a href=&quot;http://www.scala-lang.org/&quot;&gt;Scala&lt;/a&gt; integration so I think it could be helpful for somebody else. Since they are both innovative technologies I could not resist the temptation to use unusual build tool with self-explanatory name &lt;a href=&quot;http://code.google.com/p/simple-build-tool/&quot;&gt;simple-build-tool&lt;/a&gt;. In short, this is Maven-like build tool which actually works with Maven repositories (using Apache Ivy). But instead of boilerplate xml you get Scala code.&lt;/p&gt;
 
@@ -79,7 +79,7 @@ numbers. Mostly used are: &lt;code&gt;java.text.DateFormat&lt;/code&gt; and &lt;
     <entry>
         <title type="text">Фабричный метод</title>
         <link href="http://blog.vityuk.com/2009/03/blog-post.html"/>
-        <updated>2009-03-22T13:02:00+02:00</updated>
+        <updated>2009-03-22T06:02:00-05:00</updated>
         <id>http://blog.vityuk.com/2009/03/blog-post</id>
         <summary type="html">&lt;p&gt;В этот раз речь пойдет о паттернах проектирования. Если быть точнее — &lt;strong&gt;Статическом фабричном методе (&lt;a href=&quot;http://en.wikipedia.org/wiki/Factory_method_pattern#Encapsulation&quot;&gt;Static Factory Method&lt;/a&gt;)&lt;/strong&gt;. Вкратце, он призван для того, чтобы инкапсулировать процесс создания объекта.  &lt;/p&gt;
 
@@ -91,7 +91,7 @@ numbers. Mostly used are: &lt;code&gt;java.text.DateFormat&lt;/code&gt; and &lt;
     <entry>
         <title type="text">Чем опасно логирование</title>
         <link href="http://blog.vityuk.com/2009/02/blog-post.html"/>
-        <updated>2009-02-15T10:53:00+02:00</updated>
+        <updated>2009-02-15T02:53:00-06:00</updated>
         <id>http://blog.vityuk.com/2009/02/blog-post</id>
         <summary type="html">&lt;p&gt;Большинство современных приложений не обходится без логирования. Почти каждый разработчик, так или иначе, знаком с тем как это делается. Для Java существует довольно обширный набор библиотек для удобного логирования: &lt;a href=&quot;http://logging.apache.org/log4j/1.2/index.html&quot;&gt;Log4J&lt;/a&gt;, &lt;a href=&quot;http://commons.apache.org/logging/&quot;&gt;Jakarta Commons Logging&lt;/a&gt;, &lt;a href=&quot;http://www.slf4j.org/&quot;&gt;SLF4J&lt;/a&gt;, &lt;a href=&quot;http://logback.qos.ch/&quot;&gt;Logback&lt;/a&gt; и &lt;a href=&quot;http://java.sun.com/javase/6/docs/technotes/guides/logging/overview.html&quot;&gt;Java Logging API&lt;/a&gt; и т.д. &lt;/p&gt;
 
@@ -105,7 +105,7 @@ numbers. Mostly used are: &lt;code&gt;java.text.DateFormat&lt;/code&gt; and &lt;
     <entry>
         <title type="text">Подмена Синглтонов</title>
         <link href="http://blog.vityuk.com/2008/12/blog-post.html"/>
-        <updated>2008-12-17T07:14:00+02:00</updated>
+        <updated>2008-12-16T23:14:00-06:00</updated>
         <id>http://blog.vityuk.com/2008/12/blog-post</id>
         <summary type="html">&lt;p&gt;Недавно мне в очередной раз пришлось работать с кодом, полученным в наследство. И я, как честный преверженец &lt;a href=&quot;http://en.wikipedia.org/wiki/Test-driven_development&quot;&gt;TDD&lt;/a&gt;, решил предже всего написать тесты на уже существующий класс. К своему огорчению сразу же обнаружил в коде вызов следующего вида: &lt;code&gt;IdGenerator.getInstance()&lt;/code&gt;. Да, это он самый, “любимый” нами &lt;a href=&quot;http://ru.wikipedia.org/wiki/%D0%9E%D0%B4%D0%B8%D0%BD%D0%BE%D1%87%D0%BA%D0%B0_%28%D1%88%D0%B0%D0%B1%D0%BB%D0%BE%D0%BD_%D0%BF%D1%80%D0%BE%D0%B5%D0%BA%D1%82%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D1%8F%29&quot;&gt;синглтон&lt;/a&gt;.&lt;/p&gt;
 
