@@ -9,7 +9,7 @@
 <meta itemprop="name" content="Software Development">
 <meta itemprop="description" content="Tips and walkthroughs on software development">
 
-<title>Tag: testing</title>
+<title>Andrey Vityuk's Links</title>
 
 <link rel="stylesheet" type="text/css" href="/stylesheets/default.css" />
 <link rel="stylesheet" type="text/css" href="/stylesheets/syntax.css" />
@@ -47,54 +47,12 @@
 	<div id="main-wrapper">
 		<div id="main">
 			<div id="content">
-				
-<div id="posts">
-	
-	<div class="post">
-		<h2 class="date-header">Tuesday, December 16, 2008</h2>
-		<h3 class="post-title"><a href="/2008/12/blog-post.html" rel="bookmark">Подмена Синглтонов</a></h3>
-		
-		<div class="post-image">
-			<img src="http://2.bp.blogspot.com/_MzPDIAgS1ow/SYWiiNXWgDI/AAAAAAAAJr4/rMPEwUK1HsM/s320/sngleton.jpg" width="320px" height="234px" />
-		</div>
-		
-
-		
-			<p>Недавно мне в очередной раз пришлось работать с кодом, полученным в наследство. И я, как честный преверженец <a href="http://en.wikipedia.org/wiki/Test-driven_development">TDD</a>, решил предже всего написать тесты на уже существующий класс. К своему огорчению сразу же обнаружил в коде вызов следующего вида: <code>IdGenerator.getInstance()</code>. Да, это он самый, “любимый” нами <a href="http://ru.wikipedia.org/wiki/%D0%9E%D0%B4%D0%B8%D0%BD%D0%BE%D1%87%D0%BA%D0%B0_%28%D1%88%D0%B0%D0%B1%D0%BB%D0%BE%D0%BD_%D0%BF%D1%80%D0%BE%D0%B5%D0%BA%D1%82%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D1%8F%29">синглтон</a>.</p>
-
-
-		
-		<a href="/2008/12/blog-post.html">Read More &raquo;</a>
-
-		<div class="post-meta">
-			<div class="post-tags">
-				Tags:
-				
-					<a href="/tags/java" rel="tag">java, </a>
-				
-					<a href="/tags/mock" rel="tag">mock, </a>
-				
-					<a href="/tags/pattern" rel="tag">pattern, </a>
-				
-					<a href="/tags/testing" rel="tag">testing</a>
-				
-			</div>
-			<div class="comments-link"><a href="/2008/12/blog-post.html#disqus_thread" data-disqus-identifier="/2008/12/blog-post" rel="nofollow">View Comments</a></div>
-		</div>
-	</div>
-	
-</div>
-
-<script type="text/javascript">
-    var disqus_shortname = 'avityuk';
-    (function () {
-        var s = document.createElement('script'); s.async = true;
-        s.type = 'text/javascript';
-        s.src = 'http://' + disqus_shortname + '.disqus.com/count.js';
-        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
-    }());
+				<script type="text/javascript">
+	$(document).ready(function() {
+		loadAllLinks();
+    });
 </script>
-
+<div id="all-links"></div>
 
 			</div>
 			<div id="sidebar">
