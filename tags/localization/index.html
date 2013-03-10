@@ -9,13 +9,11 @@
 <meta itemprop="name" content="Software Development">
 <meta itemprop="description" content="Tips and walkthroughs on software development">
 
-<title>Logging JDBC calls</title>
+<title>Tag: localization</title>
 
 <link rel="stylesheet" type="text/css" href="/stylesheets/normalize.css" />
 <link rel="stylesheet" type="text/css" href="/stylesheets/default.css" />
 <link rel="stylesheet" type="text/css" href="/stylesheets/syntax.css" />
-
-<link rel="canonical" href="http://blog.vityuk.com/2011/03/logging-jdbc-calls.html">
 
 <link rel="alternate" type="application/atom+xml" href="http://feeds.feedburner.com/avityuk/blog" />
 
@@ -50,59 +48,59 @@
 	<div id="main-wrapper">
 		<div id="main">
 			<div id="content">
-				<div class="post">
-	<h2 class="date-header">Monday, March 07, 2011</h2>
-	<h1 class="post-title"><a href="/2011/03/logging-jdbc-calls.html" rel="bookmark">Logging JDBC calls</a></h1>
+				
+<div id="posts">
 	
-	<p>Today I found some my drafts of JDBC logger library. And finally decided to upload it on <a href="http://code.google.com/p/jdbc-logger/">Google code</a>. The main idea of the library is to transparently intercept JDBC calls and log queries (even for PreparedStatement).</p>
+	<div class="post">
+		<h2 class="date-header">Sunday, March 10, 2013</h2>
+		<h1 class="post-title"><a href="/2013/03/easy-localization-in-java.html" rel="bookmark">Localization in Java can be easy</a></h1>
+		
 
-<!-- more -->
+		
+			<p>It’s being a while since my last post. Recently I wrote small localization library for Java. It’s still in development but I wanted to share main ideas.</p>
 
-<p>It’s always painful to analyze log with JDBC calls:</p>
+<p>JDK localization capabilities are comprehensive enough but not easy to use and it misses very important concept of <a href="http://cldr.unicode.org/index/cldr-spec/plural-rules" title="Plural Rules on unicode.org">Plural Rules</a>. IMHO <a href="https://developers.google.com/web-toolkit/">GWT</a> is the only Java framework I know which did localication right. I decided to bring these ideas to server side and created <a href="https://github.com/avityuk/ginger">ginger</a>. Here is the list of it’s core ideas:</p>
 
-<pre><code>1025 [main] INFO JDBC - insert into TEST (NAME, POS) VALUES(?, ?)
-</code></pre>
-
-<p>Looks not very useful unless you are printing parameters passed to <code>PreparedStatement</code>. Even some of my colleagues pointed that they hate <code>PreparedStatement</code> because of it.</p>
-
-<p>Pretty straightforward solution is to intercept JDBC calls and create some simple log statement. That’s what actually library is doing. I won’t describe it’s usage here, since I already did it on <a href="http://code.google.com/p/jdbc-logger/wiki/Usage">usage page</a>. In short the only thing you have to do is to wrap data source: <code>new LoggableDataSource(ds, new Slf4JLogger())</code>. And that’s what you automatically get:</p>
-
-<pre><code>394 [main] INFO JDBC - insert into TEST (NAME, POS) VALUES(name-0, 0)
-</code></pre>
-
-<p>It works with any <code>DataSource</code> and various logging libraries. It could be useful during development and testing.</p>
+<ul>
+  <li>Ease of use</li>
+  <li>Compatibility with JDK localization features</li>
+  <li>Type safety</li>
+  <li>Plural rules support</li>
+  <li>Popular libraries and frameworks support</li>
+</ul>
 
 
+		
+		<a href="/2013/03/easy-localization-in-java.html">Read More &raquo;</a>
 
-	<div class="post-meta">
-		<span class="post-tags">
-			Tags:
-			
-				<a href="/tags/java" rel="tag">java, </a>
-			
-				<a href="/tags/logging" rel="tag">logging, </a>
-			
-				<a href="/tags/jdbc" rel="tag">jdbc</a>
-			
-		</span>
+		<div class="post-meta">
+			<div class="post-tags">
+				Tags:
+				
+					<a href="/tags/java" rel="tag">java, </a>
+				
+					<a href="/tags/localization" rel="tag">localization, </a>
+				
+					<a href="/tags/i18n" rel="tag">i18n, </a>
+				
+					<a href="/tags/formatting" rel="tag">formatting</a>
+				
+			</div>
+			<div class="comments-link"><a href="/2013/03/easy-localization-in-java.html#disqus_thread" data-disqus-identifier="/2013/03/easy-localization-in-java" rel="nofollow">View Comments</a></div>
+		</div>
 	</div>
+	
 </div>
-<div class="g-plusone" data-size="medium" data-annotation="bubble" expandto="right"></div>
-<div id="comments">
-	<div id="disqus_thread"></div>
-	<script type="text/javascript">
-		var disqus_shortname = 'avityuk';
-		var disqus_identifier = '/2011/03/logging-jdbc-calls';
-		var disqus_url = 'http://blog.vityuk.com/2011/03/logging-jdbc-calls.html';
-		(function() {
-			var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-			dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
-			(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-		})();
-	</script>
-	<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-	<a href="http://disqus.com" class="dsq-brlink">blog comments powered by <span class="logo-disqus">Disqus</span></a>
-</div>
+
+<script type="text/javascript">
+    var disqus_shortname = 'avityuk';
+    (function () {
+        var s = document.createElement('script'); s.async = true;
+        s.type = 'text/javascript';
+        s.src = 'http://' + disqus_shortname + '.disqus.com/count.js';
+        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+    }());
+</script>
 
 
 			</div>

@@ -3,70 +3,77 @@
 <urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">    
   <url>
     <loc>http://blog.vityuk.com/</loc>
-    <lastmod>2011-11-18T22:27:15-06:00</lastmod>
+    <lastmod>2013-03-10T16:43:07-07:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
   
   <url>
+    <loc>http://blog.vityuk.com/2013/03/easy-localization-in-java.html</loc>
+    <lastmod>2013-03-10T17:40:00-07:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  
+  <url>
     <loc>http://blog.vityuk.com/2011/03/lost-stack-trace.html</loc>
-    <lastmod>2011-03-31T13:41:00-05:00</lastmod>
+    <lastmod>2011-03-31T11:41:00-07:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   
   <url>
     <loc>http://blog.vityuk.com/2011/03/java-formatters-best-practices.html</loc>
-    <lastmod>2011-03-26T10:54:00-05:00</lastmod>
+    <lastmod>2011-03-26T08:54:00-07:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   
   <url>
     <loc>http://blog.vityuk.com/2011/03/java-generics-and-reflection.html</loc>
-    <lastmod>2011-03-22T02:46:00-05:00</lastmod>
+    <lastmod>2011-03-22T00:46:00-07:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   
   <url>
     <loc>http://blog.vityuk.com/2011/03/logging-jdbc-calls.html</loc>
-    <lastmod>2011-03-07T08:55:00-06:00</lastmod>
+    <lastmod>2011-03-07T06:55:00-08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   
   <url>
     <loc>http://blog.vityuk.com/2010/12/how-scala-compiler-stores-meta.html</loc>
-    <lastmod>2010-12-05T04:59:00-06:00</lastmod>
+    <lastmod>2010-12-05T02:59:00-08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   
   <url>
     <loc>http://blog.vityuk.com/2010/06/running-appengine-scala.html</loc>
-    <lastmod>2010-06-02T13:41:00-05:00</lastmod>
+    <lastmod>2010-06-02T11:41:00-07:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   
   <url>
     <loc>http://blog.vityuk.com/2009/03/blog-post.html</loc>
-    <lastmod>2009-03-22T06:02:00-05:00</lastmod>
+    <lastmod>2009-03-22T04:02:00-07:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   
   <url>
     <loc>http://blog.vityuk.com/2009/02/blog-post.html</loc>
-    <lastmod>2009-02-15T02:53:00-06:00</lastmod>
+    <lastmod>2009-02-15T00:53:00-08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   
   <url>
     <loc>http://blog.vityuk.com/2008/12/blog-post.html</loc>
-    <lastmod>2008-12-16T23:14:00-06:00</lastmod>
+    <lastmod>2008-12-16T21:14:00-08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>

@@ -11,6 +11,7 @@
 
 <title>Фабричный метод</title>
 
+<link rel="stylesheet" type="text/css" href="/stylesheets/normalize.css" />
 <link rel="stylesheet" type="text/css" href="/stylesheets/default.css" />
 <link rel="stylesheet" type="text/css" href="/stylesheets/syntax.css" />
 
@@ -41,8 +42,8 @@
 <body>
 	<div id="header-wrapper">
 		<div id="header">
-			<h1><a id="blog-title" href="http://blog.vityuk.com">Andrey Vityuk's Dev Blog</a></h1>
-			Tips and walkthroughs on software development
+			<h1><a id="blog-title" href="http://blog.vityuk.com">Developer's playground</a></h1>
+			My brain dump about software development
 		</div>
 	</div>
 
@@ -51,7 +52,7 @@
 			<div id="content">
 				<div class="post">
 	<h2 class="date-header">Sunday, March 22, 2009</h2>
-	<h3 class="post-title"><a href="/2009/03/blog-post.html" rel="bookmark">Фабричный метод</a></h3>
+	<h1 class="post-title"><a href="/2009/03/blog-post.html" rel="bookmark">Фабричный метод</a></h1>
 	
 	<div class="post-image">
 		<img src="http://2.bp.blogspot.com/_MzPDIAgS1ow/ScY48e6QaTI/AAAAAAAAJ6Y/WkCsn9_myxU/s400/magican.jpg" width="304px" height="400px" />
@@ -141,8 +142,7 @@
     <span class="o">}</span>
   <span class="o">}</span>
 <span class="o">}</span>
-</code></pre>
-</div>
+</code></pre></div>
 
 <p><em>ResponseTest.java:</em></p>
 
@@ -271,8 +271,7 @@
     <span class="k">return</span> <span class="k">new</span> <span class="n">Response</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">,</span> <span class="n">String</span><span class="o">&gt;();</span>
   <span class="o">}</span>
 <span class="o">}</span>
-</code></pre>
-</div>
+</code></pre></div>
 
 <p>В этом примере <code>Response</code> содержит два конструктора: один (без параметров) для пустых ответов и второй (с двумя параметрами) для ответов с данным или ошибками. Было бы логично иметь три конструктора, но не смотря на использования <em>generic</em> типов, параметры на самом деле имеют тип <code>Object</code>, соответственно конструктор не может быть перегружен.  </p>
 
@@ -355,8 +354,7 @@
     <span class="o">}</span>
   <span class="o">}</span>
 <span class="o">}</span>
-</code></pre>
-</div>
+</code></pre></div>
 
 <p><em>ResponseTest.java:</em></p>
 
@@ -480,8 +478,7 @@
     <span class="k">return</span> <span class="n">Response</span><span class="o">.</span><span class="na">empty</span><span class="o">();</span>
   <span class="o">}</span>
 <span class="o">}</span>
-</code></pre>
-</div>
+</code></pre></div>
 
 <p>Методы <code>Response.fromValue()</code>, <code>Response.fromError()</code>, <code>Response.empty()</code> прозрачно для пользователя создают объект. Таким образом, они решают путаницу с конструкторами и даже делают код более осмысленным. Собственно, эти методы и являются <em>статическими фабричными методами</em>.  </p>
 
@@ -623,8 +620,7 @@
     <span class="o">}</span>
   <span class="o">}</span>
 <span class="o">}</span>
-</code></pre>
-</div>
+</code></pre></div>
 
 <p><em>ResponseTest.java:</em></p>
 
@@ -746,8 +742,7 @@
     <span class="k">return</span> <span class="n">Response</span><span class="o">.</span><span class="na">empty</span><span class="o">();</span>
   <span class="o">}</span>
 <span class="o">}</span>
-</code></pre>
-</div>
+</code></pre></div>
 
 <p>Интерфейс остался прежним, соответственно, тесты те же, что и в предыдущем примере. Последний пример имеет не только более опрятную реализацию, к тому же, по производительности и расходу памяти он более оптимален: поведение большинства методов определяется статически в зависимости от конкретной реализации, а ссылки сами по себе (даже пустые) используют память. Более того, в качестве пустого контейнера (<code>Response.Empty</code>) всегда возвращается один и тот же объект, который создается только один раз (такой себе <a href="http://ru.wikipedia.org/wiki/%D0%9E%D0%B4%D0%B8%D0%BD%D0%BE%D1%87%D0%BA%D0%B0_(%D1%88%D0%B0%D0%B1%D0%BB%D0%BE%D0%BD_%D0%BF%D1%80%D0%BE%D0%B5%D0%BA%D1%82%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D1%8F)">Синглтон</a>). Кстати, в качестве разминки, советую попробовать реализовать правильные методы <a href="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/Object.html#equals(java.lang.Object)">equals</a> и <a href="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/Object.html#hashCode()">hashCode</a> для нашего <code>Response</code> (советую начать с тестов). Думаю, что никто не будет отрицать преимуществ использования паттерна <em>Фабричный метод</em> для нашей задачи. Лично у меня для себя есть такое правило: если есть частично или полностью <a href="http://en.wikipedia.org/wiki/Immutable_object">Immutable object</a>, то всегда стоит подумать о том, чтобы сделать <em>фабричный метод</em> вместо конструктора, даже когда он явно делает то же самое, что и конструктор. Да, я знаю, это может немного противоречить принципу <a href="http://en.wikipedia.org/wiki/You_Ain%27t_Gonna_Need_It">YAGNI</a>. Но в таких случаях я себя оправдываю тем, что статические методы выглядят красивее и порой удобней читаются. Далее, в награду, у меня всегда есть возможность что-то поменять внутри класса или сделать некую оптимизацию не затрагивая клиентский код. В нагрузку, советую посмотреть на реализацию метода <a href="http://java.sun.com/j2se/1.5.0/docs/api/java/lang/Integer.html#valueOf(int)">Integer.valueOf()</a>. Для меня, в свое время, это было очень познавательно.</p>
 
@@ -790,27 +785,29 @@
 			<div id="sidebar">
 				<div id="tags">
 	<div id="tags-cloud">
-		<span style="font-size: 67%"><a href="/tags/appengine/">appengine</a></span>
-<span style="font-size: 67%"><a href="/tags/bytecode/">bytecode</a></span>
-<span style="font-size: 67%"><a href="/tags/compiler/">compiler</a></span>
-<span style="font-size: 67%"><a href="/tags/debugging/">debugging</a></span>
-<span style="font-size: 67%"><a href="/tags/error-handling/">error handling</a></span>
-<span style="font-size: 67%"><a href="/tags/factory-method/">factory method</a></span>
-<span style="font-size: 67%"><a href="/tags/formatting/">formatting</a></span>
-<span style="font-size: 67%"><a href="/tags/generics/">generics</a></span>
-<span style="font-size: 67%"><a href="/tags/google/">google</a></span>
-<span style="font-size: 474%"><a href="/tags/java/">java</a></span>
-<span style="font-size: 67%"><a href="/tags/jdbc/">jdbc</a></span>
-<span style="font-size: 135%"><a href="/tags/logging/">logging</a></span>
-<span style="font-size: 67%"><a href="/tags/mock/">mock</a></span>
-<span style="font-size: 67%"><a href="/tags/multithreading/">multithreading</a></span>
-<span style="font-size: 135%"><a href="/tags/pattern/">pattern</a></span>
-<span style="font-size: 67%"><a href="/tags/performance/">performance</a></span>
-<span style="font-size: 135%"><a href="/tags/reflection/">reflection</a></span>
-<span style="font-size: 67%"><a href="/tags/sbt/">sbt</a></span>
-<span style="font-size: 135%"><a href="/tags/scala/">scala</a></span>
-<span style="font-size: 67%"><a href="/tags/testing/">testing</a></span>
-<span style="font-size: 67%"><a href="/tags/web/">web</a></span>
+		<span style="font-size: 65%"><a href="/tags/appengine/">appengine</a></span>
+<span style="font-size: 65%"><a href="/tags/bytecode/">bytecode</a></span>
+<span style="font-size: 65%"><a href="/tags/compiler/">compiler</a></span>
+<span style="font-size: 65%"><a href="/tags/debugging/">debugging</a></span>
+<span style="font-size: 65%"><a href="/tags/error-handling/">error handling</a></span>
+<span style="font-size: 65%"><a href="/tags/factory-method/">factory method</a></span>
+<span style="font-size: 131%"><a href="/tags/formatting/">formatting</a></span>
+<span style="font-size: 65%"><a href="/tags/generics/">generics</a></span>
+<span style="font-size: 65%"><a href="/tags/google/">google</a></span>
+<span style="font-size: 65%"><a href="/tags/i18n/">i18n</a></span>
+<span style="font-size: 525%"><a href="/tags/java/">java</a></span>
+<span style="font-size: 65%"><a href="/tags/jdbc/">jdbc</a></span>
+<span style="font-size: 65%"><a href="/tags/localization/">localization</a></span>
+<span style="font-size: 131%"><a href="/tags/logging/">logging</a></span>
+<span style="font-size: 65%"><a href="/tags/mock/">mock</a></span>
+<span style="font-size: 65%"><a href="/tags/multithreading/">multithreading</a></span>
+<span style="font-size: 131%"><a href="/tags/pattern/">pattern</a></span>
+<span style="font-size: 65%"><a href="/tags/performance/">performance</a></span>
+<span style="font-size: 131%"><a href="/tags/reflection/">reflection</a></span>
+<span style="font-size: 65%"><a href="/tags/sbt/">sbt</a></span>
+<span style="font-size: 131%"><a href="/tags/scala/">scala</a></span>
+<span style="font-size: 65%"><a href="/tags/testing/">testing</a></span>
+<span style="font-size: 65%"><a href="/tags/web/">web</a></span>
 
 	</div>
 </div>

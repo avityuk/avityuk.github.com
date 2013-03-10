@@ -1,0 +1,353 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en" itemscope itemtype="http://schema.org/Blog">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8"  />
+<meta name="description" content="Andrey Vityuk's Dev Blog" />
+<meta name="keywords" content="code,software,development" />
+<meta name="author" content="Andrey Vityuk" />
+<meta name='yandex-verification' content='5725e5329ff88b91' />
+<meta itemprop="name" content="Software Development">
+<meta itemprop="description" content="Tips and walkthroughs on software development">
+
+<title>Localization in Java can be easy</title>
+
+<link rel="stylesheet" type="text/css" href="/stylesheets/normalize.css" />
+<link rel="stylesheet" type="text/css" href="/stylesheets/default.css" />
+<link rel="stylesheet" type="text/css" href="/stylesheets/syntax.css" />
+
+<link rel="canonical" href="http://blog.vityuk.com/2013/03/easy-localization-in-java.html">
+
+<link rel="alternate" type="application/atom+xml" href="http://feeds.feedburner.com/avityuk/blog" />
+
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.0/jquery.min.js"></script>
+<script type="text/javascript" src="/javascript/main.js"></script>
+<script type="text/javascript">
+ var _gaq = _gaq || [];
+ _gaq.push(['_setAccount', 'UA-7697564-2']);
+ _gaq.push(['_trackPageview']);
+ _gaq.push(['_trackPageLoadTime']);
+
+ (function() {
+   var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+   ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+   var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+ })();
+</script>
+<script type="text/javascript">
+	$(document).ready(function() {
+		loadSidebarLinks();
+    });
+</script>
+</head>
+<body>
+	<div id="header-wrapper">
+		<div id="header">
+			<h1><a id="blog-title" href="http://blog.vityuk.com">Developer's playground</a></h1>
+			My brain dump about software development
+		</div>
+	</div>
+
+	<div id="main-wrapper">
+		<div id="main">
+			<div id="content">
+				<div class="post">
+	<h2 class="date-header">Sunday, March 10, 2013</h2>
+	<h1 class="post-title"><a href="/2013/03/easy-localization-in-java.html" rel="bookmark">Localization in Java can be easy</a></h1>
+	
+	<p>It’s being a while since my last post. Recently I wrote small localization library for Java. It’s still in development but I wanted to share main ideas.</p>
+
+<p>JDK localization capabilities are comprehensive enough but not easy to use and it misses very important concept of <a href="http://cldr.unicode.org/index/cldr-spec/plural-rules" title="Plural Rules on unicode.org">Plural Rules</a>. IMHO <a href="https://developers.google.com/web-toolkit/">GWT</a> is the only Java framework I know which did localication right. I decided to bring these ideas to server side and created <a href="https://github.com/avityuk/ginger">ginger</a>. Here is the list of it’s core ideas:</p>
+
+<ul>
+  <li>Ease of use</li>
+  <li>Compatibility with JDK localization features</li>
+  <li>Type safety</li>
+  <li>Plural rules support</li>
+  <li>Popular libraries and frameworks support</li>
+</ul>
+
+<!-- more -->
+
+<p>Let’s get to some examples.</p>
+
+<p>This is the simplest way to initialize library:</p>
+
+<div class="highlight"><pre><code class="java"><span class="n">Localization</span> <span class="n">localization</span> <span class="o">=</span> <span class="k">new</span> <span class="n">LocalizationBuilder</span><span class="o">()</span>
+        <span class="o">.</span><span class="na">withResourceLocation</span><span class="o">(</span><span class="s">&quot;classpath:demo.properties&quot;</span><span class="o">)</span>
+        <span class="o">.</span><span class="na">build</span><span class="o">();</span>
+</code></pre></div>
+
+<p>This code creates instance of <code>Localization</code> which I will use in further examples. There are additional methods in <code>LocalizationBuilder</code> for more flexible configuration: locale resolvers, caching options, resource loaders and additional properties files.</p>
+
+<h2 id="constants">Constants</h2>
+
+<p>demo_en.properties (standard Java properties file except that it supports UTF-8 encoding without additional tranformation):</p>
+
+<div class="highlight"><pre><code class="properties"><span class="na">day</span><span class="o">=</span><span class="s">day</span>
+<span class="na">week.start.day</span><span class="o">=</span><span class="s">0</span>
+<span class="c"># Comma separated list</span>
+<span class="na">week.days</span><span class="o">=</span><span class="s">Sunday, Monday, Tuesday, Wednesday, Thursday, Friday, Saturday</span>
+</code></pre></div>
+
+<p>Now type safety comes to the stage. We need to define interface which extends <code>Localizable</code> interface and defines methods corresponding to constansts defined in the properties file.</p>
+
+<div class="highlight"><pre><code class="java"><span class="kd">public</span> <span class="kd">interface</span> <span class="nc">LocalizableConstants</span> <span class="kd">extends</span> <span class="n">Localizable</span> <span class="o">{</span>
+    <span class="n">String</span> <span class="nf">day</span><span class="o">();</span>
+    <span class="n">Integer</span> <span class="nf">weekStartDay</span><span class="o">();</span>
+    <span class="n">List</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span> <span class="nf">weekDays</span><span class="o">();</span>
+<span class="o">}</span>
+</code></pre></div>
+
+<p>Camel case method names are transformed into dot separated property keys. Method can return any primitive wrapper, String, List or Map.</p>
+
+<p>In order to start using localized constants corresponding to the current locale we need to get instance of <code>LocalizableConstants</code>. Note, that default <code>LocaleResolver</code> implmentation uses <code>Locale.getDefault()</code>.
+Real application would do that only once and then reuse the instance. <code>Localizable</code> instance is thread-safe and independent of current locale.</p>
+
+<p>Getting localized values is really easy:</p>
+
+<div class="highlight"><pre><code class="java"><span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">constants</span><span class="o">.</span><span class="na">day</span><span class="o">());</span>
+<span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">constants</span><span class="o">.</span><span class="na">weekStartDay</span><span class="o">());</span>
+<span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">constants</span><span class="o">.</span><span class="na">weekDays</span><span class="o">());</span>
+</code></pre></div>
+
+<p>Output:</p>
+
+<pre><code>day
+0
+[Sunday, Monday, Tuesday, Wednesday, Thursday, Friday, Saturday]
+</code></pre>
+
+<h2 id="messages">Messages</h2>
+
+<p>The main difference between constants and messages is that messages have parameterized values in text. ginger’s message is backed by JDK’s <a href="http://docs.oracle.com/javase/6/docs/api/java/text/MessageFormat.html">MessageFormat</a> with additional enhancements.</p>
+
+<p>demo_en.properties with messages:</p>
+
+<div class="highlight"><pre><code class="properties"><span class="na">planet.event</span><span class="o">=</span><span class="s">At {1,time} on {1,date}, there was {2} on planet {0,number,integer}.</span>
+</code></pre></div>
+
+<p>Property value follows <a href="http://docs.oracle.com/javase/6/docs/api/java/text/MessageFormat.html">MessagesFormat</a> syntax:</p>
+
+<ol>
+  <li><code>{0,number,integer}</code> number formatted as integer. 1st format parameter</li>
+  <li><code>{1,time}</code> time part of a Date. 2nd format parameter</li>
+  <li><code>{1,date}</code> date part of a Date. 2nd format parameter</li>
+  <li><code>{2}</code> default format and depends on parameter type. 3rd format parameter</li>
+</ol>
+
+<p>Similar to constants messages should be defined as methods on <code>Localizable</code> interface. With the only difference that methods for messages should have parameters.</p>
+
+<div class="highlight"><pre><code class="java"><span class="kd">public</span> <span class="kd">interface</span> <span class="nc">LocalizableMessages</span> <span class="kd">extends</span> <span class="n">Localizable</span> <span class="o">{</span>
+    <span class="n">String</span> <span class="nf">planetEvent</span><span class="o">(</span><span class="kt">int</span> <span class="n">planet</span><span class="o">,</span> <span class="n">Date</span> <span class="n">eventDate</span><span class="o">,</span> <span class="n">String</span> <span class="n">event</span><span class="o">);</span>
+<span class="o">}</span>
+</code></pre></div>
+
+<p>Message method supports the same set of parameter types which is supported by <a href="http://docs.oracle.com/javase/6/docs/api/java/text/MessageFormat.html">MessageFormat</a>. As an additional benefit it also supports all <a href="http://joda-time.sourceforge.net">Joda Time</a> types.</p>
+
+<p>Instance of <code>LocalizableMessages</code> can be created similar to example with constants. Furthermore they are no different to constants and could be defined together.</p>
+
+<p>And this how we can create message with specified parameters:</p>
+
+<div class="highlight"><pre><code class="java"><span class="kt">int</span> <span class="n">planet</span> <span class="o">=</span> <span class="mi">7</span><span class="o">;</span>
+<span class="n">String</span> <span class="n">event</span> <span class="o">=</span> <span class="s">&quot;a disturbance in the Force&quot;</span><span class="o">;</span>
+<span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">messages</span><span class="o">.</span><span class="na">planetEvent</span><span class="o">(</span><span class="n">planet</span><span class="o">,</span> <span class="k">new</span> <span class="n">Date</span><span class="o">(),</span> <span class="n">event</span><span class="o">));</span>
+</code></pre></div>
+
+<p>Output:</p>
+
+<pre><code>At 8:10:33 PM on Mar 9, 2013, there was a disturbance in the Force on planet 7.
+</code></pre>
+
+<p>As I said, it’s easy!</p>
+
+<h2 id="plurals">Plurals</h2>
+
+<p>English speaking people would probably say: “What’s the matter? 1 - single, 2..n - plural”. Ok, but it does not work for all languages. Just look at <a href="http://www.unicode.org/cldr/charts/supplemental/language_plural_rules.html">list of languages and plural rules</a>. For examples, in Russian there are three forms:</p>
+
+<ul>
+  <li>one - n mod 10 is 1 and n mod 100 is not 11</li>
+  <li>few - n mod 10 in 2..4 and n mod 100 not in 12..14</li>
+  <li>many -  n mod 10 is 0 or n mod 10 in 5..9 or n mod 100 in 11..14</li>
+</ul>
+
+<p>Looks pretty bad, isn’t it? And it’s not the worst case. There is <a href="http://site.icu-project.org">ICU</a> project which has C++ and Java implementation and seems to be the most comprehensive internationalization library. The downside is it’s not easy to use and it can be an overkill for small and medium size projects.</p>
+
+<p>This was original reason why I decided to create ginger. Make pluralization simple.</p>
+
+<p>Let’s consider the following demo_en.properties. This time with messages for different plural forms:</p>
+
+<div class="highlight"><pre><code class="properties"><span class="na">users.found[0]</span><span class="o">=</span><span class="s">No users found</span>
+<span class="na">users.found[one]</span><span class="o">=</span><span class="s">Found one user</span>
+<span class="na">users.found[other]</span><span class="o">=</span><span class="s">Found {0} users</span>
+</code></pre></div>
+
+<p>Parameters in square brackets have plural form selectors. Different languages may have different selectors. <code>one</code>, <code>other</code> and <code>many</code> are the most commonly used selectors. Exact list of selector for any particular language can be found at <a href="http://www.unicode.org/cldr/charts/supplemental/language_plural_rules.html">unicode.org</a>. <code>0</code> and <code>1</code> are special selectors and can be used independently of language for exact count match.</p>
+
+<p>Parameters used for plural form selection should be annotated with <code>@PluralCount</code> annotation.</p>
+
+<div class="highlight"><pre><code class="java"><span class="kd">public</span> <span class="kd">interface</span> <span class="nc">LocalizableMessages</span> <span class="kd">extends</span> <span class="n">Localizable</span> <span class="o">{</span>  
+    <span class="n">String</span> <span class="nf">usersFound</span><span class="o">(</span><span class="nd">@PluralCount</span> <span class="kt">int</span> <span class="n">usersCount</span><span class="o">);</span>
+<span class="o">}</span>
+</code></pre></div>
+
+<p>And now it can be used in the actual code.</p>
+
+<div class="highlight"><pre><code class="java"><span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">messages</span><span class="o">.</span><span class="na">usersFound</span><span class="o">(</span><span class="mi">0</span><span class="o">));</span>
+<span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">messages</span><span class="o">.</span><span class="na">usersFound</span><span class="o">(</span><span class="mi">1</span><span class="o">));</span>
+<span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">messages</span><span class="o">.</span><span class="na">usersFound</span><span class="o">(</span><span class="mi">2</span><span class="o">));</span>
+</code></pre></div>
+
+<p>Displays messages based on passed plural count:</p>
+
+<pre><code>No users found
+Found one user
+Found 2 users
+</code></pre>
+
+<h2 id="selectors">Selectors</h2>
+
+<p>Selectors are similar to plurals. You might need to choose message based on something besides a count. For example, you want to display different messages based on person’s gender.</p>
+
+<div class="highlight"><pre><code class="java"><span class="kd">public</span> <span class="kd">enum</span> <span class="n">Gender</span> <span class="o">{</span>
+    <span class="n">FEMALE</span><span class="o">,</span>
+    <span class="n">MALE</span>
+<span class="o">}</span>
+</code></pre></div>
+
+<p>And you have messages corresponding to <code>FEMALE</code> and <code>MALE</code> <code>Gender</code>:</p>
+
+<div class="highlight"><pre><code class="properties"><span class="na">present.sent[FEMALE]</span><span class="o">=</span><span class="s">She sent you a present</span>
+<span class="na">present.sent[MALE]</span><span class="o">=</span><span class="s">He sent you a present</span>
+</code></pre></div>
+
+<p>This how method definition for message with gender selector looks like. </p>
+
+<div class="highlight"><pre><code class="java"><span class="kd">public</span> <span class="kd">interface</span> <span class="nc">LocalizableMessages</span> <span class="kd">extends</span> <span class="n">Localizable</span> <span class="o">{</span>
+	<span class="n">String</span> <span class="nf">presentSent</span><span class="o">(</span><span class="nd">@Select</span> <span class="n">Gender</span> <span class="n">gender</span><span class="o">);</span>
+<span class="o">}</span>
+</code></pre></div>
+
+<p><code>@Select</code> annotation indicates that this parameter is a selector.</p>
+
+<p>The following code prints messages for <code>MALE</code> and <code>FEMALE</code> <code>Gender</code>.</p>
+
+<div class="highlight"><pre><code class="java"><span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">messages</span><span class="o">.</span><span class="na">presentSent</span><span class="o">(</span><span class="n">Gender</span><span class="o">.</span><span class="na">MALE</span><span class="o">));</span>
+<span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">messages</span><span class="o">.</span><span class="na">presentSent</span><span class="o">(</span><span class="n">Gender</span><span class="o">.</span><span class="na">FEMALE</span><span class="o">));</span>
+</code></pre></div>
+
+<p>As expected output displays messages based on <code>Gender</code> parameter:</p>
+
+<pre><code>She sent you a present
+He sent you a present
+</code></pre>
+
+<p>This was brief overview of <a href="https://github.com/avityuk/ginger">ginger’s</a> core features. I also published <a href="https://github.com/avityuk/ginger-demo/tree/master/simple">above examples on Github</a>. I intentionally didn’t cover <a href="http://www.springsource.org/spring-framework">Spring</a> and JSP integration in this post and will dedicate separate post for them.</p>
+
+<p>Should you have any questions or feature requests feel free to create <a href="https://github.com/avityuk/ginger/issues">Github issue</a>. I am also planning to add more detailed information on the <a href="https://github.com/avityuk/ginger">project page</a>.</p>
+
+<p>You can add it to you project using Maven:</p>
+
+<div class="highlight"><pre><code class="xml"><span class="nt">&lt;dependency&gt;</span>
+    <span class="nt">&lt;groupId&gt;</span>com.vityuk<span class="nt">&lt;/groupId&gt;</span>
+    <span class="nt">&lt;artifactId&gt;</span>ginger-core<span class="nt">&lt;/artifactId&gt;</span>
+    <span class="nt">&lt;version&gt;</span>0.2.1<span class="nt">&lt;/version&gt;</span>
+<span class="nt">&lt;/dependency&gt;</span>
+</code></pre></div>
+
+<p>All Maven artifacts including <a href="http://www.springsource.org/spring-framework">Spring</a> and JSP integration are available on <a href="http://search.maven.org/#search%7Cga%7C1%7Cginger">public Maven repositiories</a></p>
+
+
+
+	<div class="post-meta">
+		<span class="post-tags">
+			Tags:
+			
+				<a href="/tags/java" rel="tag">java, </a>
+			
+				<a href="/tags/localization" rel="tag">localization, </a>
+			
+				<a href="/tags/i18n" rel="tag">i18n, </a>
+			
+				<a href="/tags/formatting" rel="tag">formatting</a>
+			
+		</span>
+	</div>
+</div>
+<div class="g-plusone" data-size="medium" data-annotation="bubble" expandto="right"></div>
+<div id="comments">
+	<div id="disqus_thread"></div>
+	<script type="text/javascript">
+		var disqus_shortname = 'avityuk';
+		var disqus_identifier = '/2013/03/easy-localization-in-java';
+		var disqus_url = 'http://blog.vityuk.com/2013/03/easy-localization-in-java.html';
+		(function() {
+			var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+			dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+			(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+		})();
+	</script>
+	<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+	<a href="http://disqus.com" class="dsq-brlink">blog comments powered by <span class="logo-disqus">Disqus</span></a>
+</div>
+
+
+			</div>
+			<div id="sidebar">
+				<div id="tags">
+	<div id="tags-cloud">
+		<span style="font-size: 65%"><a href="/tags/appengine/">appengine</a></span>
+<span style="font-size: 65%"><a href="/tags/bytecode/">bytecode</a></span>
+<span style="font-size: 65%"><a href="/tags/compiler/">compiler</a></span>
+<span style="font-size: 65%"><a href="/tags/debugging/">debugging</a></span>
+<span style="font-size: 65%"><a href="/tags/error-handling/">error handling</a></span>
+<span style="font-size: 65%"><a href="/tags/factory-method/">factory method</a></span>
+<span style="font-size: 131%"><a href="/tags/formatting/">formatting</a></span>
+<span style="font-size: 65%"><a href="/tags/generics/">generics</a></span>
+<span style="font-size: 65%"><a href="/tags/google/">google</a></span>
+<span style="font-size: 65%"><a href="/tags/i18n/">i18n</a></span>
+<span style="font-size: 525%"><a href="/tags/java/">java</a></span>
+<span style="font-size: 65%"><a href="/tags/jdbc/">jdbc</a></span>
+<span style="font-size: 65%"><a href="/tags/localization/">localization</a></span>
+<span style="font-size: 131%"><a href="/tags/logging/">logging</a></span>
+<span style="font-size: 65%"><a href="/tags/mock/">mock</a></span>
+<span style="font-size: 65%"><a href="/tags/multithreading/">multithreading</a></span>
+<span style="font-size: 131%"><a href="/tags/pattern/">pattern</a></span>
+<span style="font-size: 65%"><a href="/tags/performance/">performance</a></span>
+<span style="font-size: 131%"><a href="/tags/reflection/">reflection</a></span>
+<span style="font-size: 65%"><a href="/tags/sbt/">sbt</a></span>
+<span style="font-size: 131%"><a href="/tags/scala/">scala</a></span>
+<span style="font-size: 65%"><a href="/tags/testing/">testing</a></span>
+<span style="font-size: 65%"><a href="/tags/web/">web</a></span>
+
+	</div>
+</div>
+
+				<div id="rss">
+					<a class="icon-link" href="http://feeds.feedburner.com/avityuk/blog" title="Subscribe to my RSS feed"><img src="/images/rss.png"/></a>
+				</div>
+				<div id="links">
+	<h2>Links</h2>
+	<div id="links-list"></div>
+	<a href="/links.html">More...</a>
+</div>
+
+			</div>
+			<div style="clear: both;"></div>
+		</div>
+	</div>
+
+	<div id="footer-wrapper">
+		<div id="footer">
+			Copyright &copy; 2011 All Rights Reserved.
+		</div>
+	</div>
+
+<script type="text/javascript">
+  (function() {
+    var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+    po.src = 'https://apis.google.com/js/plusone.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+  })();
+</script>
+</body>
+</html>

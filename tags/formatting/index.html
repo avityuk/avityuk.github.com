@@ -11,6 +11,7 @@
 
 <title>Tag: formatting</title>
 
+<link rel="stylesheet" type="text/css" href="/stylesheets/normalize.css" />
 <link rel="stylesheet" type="text/css" href="/stylesheets/default.css" />
 <link rel="stylesheet" type="text/css" href="/stylesheets/syntax.css" />
 
@@ -39,8 +40,8 @@
 <body>
 	<div id="header-wrapper">
 		<div id="header">
-			<h1><a id="blog-title" href="http://blog.vityuk.com">Andrey Vityuk's Dev Blog</a></h1>
-			Tips and walkthroughs on software development
+			<h1><a id="blog-title" href="http://blog.vityuk.com">Developer's playground</a></h1>
+			My brain dump about software development
 		</div>
 	</div>
 
@@ -51,8 +52,47 @@
 <div id="posts">
 	
 	<div class="post">
+		<h2 class="date-header">Sunday, March 10, 2013</h2>
+		<h1 class="post-title"><a href="/2013/03/easy-localization-in-java.html" rel="bookmark">Localization in Java can be easy</a></h1>
+		
+
+		
+			<p>It’s being a while since my last post. Recently I wrote small localization library for Java. It’s still in development but I wanted to share main ideas.</p>
+
+<p>JDK localization capabilities are comprehensive enough but not easy to use and it misses very important concept of <a href="http://cldr.unicode.org/index/cldr-spec/plural-rules" title="Plural Rules on unicode.org">Plural Rules</a>. IMHO <a href="https://developers.google.com/web-toolkit/">GWT</a> is the only Java framework I know which did localication right. I decided to bring these ideas to server side and created <a href="https://github.com/avityuk/ginger">ginger</a>. Here is the list of it’s core ideas:</p>
+
+<ul>
+  <li>Ease of use</li>
+  <li>Compatibility with JDK localization features</li>
+  <li>Type safety</li>
+  <li>Plural rules support</li>
+  <li>Popular libraries and frameworks support</li>
+</ul>
+
+
+		
+		<a href="/2013/03/easy-localization-in-java.html">Read More &raquo;</a>
+
+		<div class="post-meta">
+			<div class="post-tags">
+				Tags:
+				
+					<a href="/tags/java" rel="tag">java, </a>
+				
+					<a href="/tags/localization" rel="tag">localization, </a>
+				
+					<a href="/tags/i18n" rel="tag">i18n, </a>
+				
+					<a href="/tags/formatting" rel="tag">formatting</a>
+				
+			</div>
+			<div class="comments-link"><a href="/2013/03/easy-localization-in-java.html#disqus_thread" data-disqus-identifier="/2013/03/easy-localization-in-java" rel="nofollow">View Comments</a></div>
+		</div>
+	</div>
+	
+	<div class="post">
 		<h2 class="date-header">Saturday, March 26, 2011</h2>
-		<h3 class="post-title"><a href="/2011/03/java-formatters-best-practices.html" rel="bookmark">Java Formatters Best Practices</a></h3>
+		<h1 class="post-title"><a href="/2011/03/java-formatters-best-practices.html" rel="bookmark">Java Formatters Best Practices</a></h1>
 		
 
 		
@@ -95,27 +135,29 @@ numbers. Mostly used are: <code>java.text.DateFormat</code> and <code>java.text.
 			<div id="sidebar">
 				<div id="tags">
 	<div id="tags-cloud">
-		<span style="font-size: 67%"><a href="/tags/appengine/">appengine</a></span>
-<span style="font-size: 67%"><a href="/tags/bytecode/">bytecode</a></span>
-<span style="font-size: 67%"><a href="/tags/compiler/">compiler</a></span>
-<span style="font-size: 67%"><a href="/tags/debugging/">debugging</a></span>
-<span style="font-size: 67%"><a href="/tags/error-handling/">error handling</a></span>
-<span style="font-size: 67%"><a href="/tags/factory-method/">factory method</a></span>
-<span style="font-size: 67%"><a href="/tags/formatting/">formatting</a></span>
-<span style="font-size: 67%"><a href="/tags/generics/">generics</a></span>
-<span style="font-size: 67%"><a href="/tags/google/">google</a></span>
-<span style="font-size: 474%"><a href="/tags/java/">java</a></span>
-<span style="font-size: 67%"><a href="/tags/jdbc/">jdbc</a></span>
-<span style="font-size: 135%"><a href="/tags/logging/">logging</a></span>
-<span style="font-size: 67%"><a href="/tags/mock/">mock</a></span>
-<span style="font-size: 67%"><a href="/tags/multithreading/">multithreading</a></span>
-<span style="font-size: 135%"><a href="/tags/pattern/">pattern</a></span>
-<span style="font-size: 67%"><a href="/tags/performance/">performance</a></span>
-<span style="font-size: 135%"><a href="/tags/reflection/">reflection</a></span>
-<span style="font-size: 67%"><a href="/tags/sbt/">sbt</a></span>
-<span style="font-size: 135%"><a href="/tags/scala/">scala</a></span>
-<span style="font-size: 67%"><a href="/tags/testing/">testing</a></span>
-<span style="font-size: 67%"><a href="/tags/web/">web</a></span>
+		<span style="font-size: 65%"><a href="/tags/appengine/">appengine</a></span>
+<span style="font-size: 65%"><a href="/tags/bytecode/">bytecode</a></span>
+<span style="font-size: 65%"><a href="/tags/compiler/">compiler</a></span>
+<span style="font-size: 65%"><a href="/tags/debugging/">debugging</a></span>
+<span style="font-size: 65%"><a href="/tags/error-handling/">error handling</a></span>
+<span style="font-size: 65%"><a href="/tags/factory-method/">factory method</a></span>
+<span style="font-size: 131%"><a href="/tags/formatting/">formatting</a></span>
+<span style="font-size: 65%"><a href="/tags/generics/">generics</a></span>
+<span style="font-size: 65%"><a href="/tags/google/">google</a></span>
+<span style="font-size: 65%"><a href="/tags/i18n/">i18n</a></span>
+<span style="font-size: 525%"><a href="/tags/java/">java</a></span>
+<span style="font-size: 65%"><a href="/tags/jdbc/">jdbc</a></span>
+<span style="font-size: 65%"><a href="/tags/localization/">localization</a></span>
+<span style="font-size: 131%"><a href="/tags/logging/">logging</a></span>
+<span style="font-size: 65%"><a href="/tags/mock/">mock</a></span>
+<span style="font-size: 65%"><a href="/tags/multithreading/">multithreading</a></span>
+<span style="font-size: 131%"><a href="/tags/pattern/">pattern</a></span>
+<span style="font-size: 65%"><a href="/tags/performance/">performance</a></span>
+<span style="font-size: 131%"><a href="/tags/reflection/">reflection</a></span>
+<span style="font-size: 65%"><a href="/tags/sbt/">sbt</a></span>
+<span style="font-size: 131%"><a href="/tags/scala/">scala</a></span>
+<span style="font-size: 65%"><a href="/tags/testing/">testing</a></span>
+<span style="font-size: 65%"><a href="/tags/web/">web</a></span>
 
 	</div>
 </div>
